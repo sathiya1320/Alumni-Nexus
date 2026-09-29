@@ -1,0 +1,51 @@
+.search-container {
+    min-height: 100vh;
+    padding: 120px 50px;
+    background: #f4f7ff;
+}
+
+.search-container h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #2563eb;
+}
+
+.search-box {
+    width: 100%;
+    max-width: 500px;
+    display: block;
+    margin: auto;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+.alumni-grid {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.alumni-card {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.avatar {
+    font-size: 50px;
+    margin-bottom: 15px;
+}
+
+.alumni-card button {
+    margin-top: 15px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    background: #2563eb;
+    color: white;
+    cursor: pointer;
+}

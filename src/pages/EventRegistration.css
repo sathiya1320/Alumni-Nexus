@@ -1,0 +1,186 @@
+.event-registration-page {
+  min-height: 100vh;
+  padding: 120px 20px 60px;
+  background: #f5f7fb;
+}
+
+.event-registration-container {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.event-registration-card {
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+}
+
+.registration-label {
+  color: #4f46e5;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  margin-bottom: 8px;
+}
+
+.event-registration-card h1 {
+  margin: 0;
+  color: #1f2937;
+  font-size: 32px;
+}
+
+.registration-subtitle {
+  color: #6b7280;
+  margin-top: 10px;
+  margin-bottom: 28px;
+}
+
+.event-details {
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 28px;
+}
+
+.event-details p {
+  margin: 10px 0;
+  color: #374151;
+  line-height: 1.6;
+}
+
+.event-details strong {
+  color: #111827;
+}
+
+.registration-form label {
+  display: block;
+  margin-bottom: 8px;
+  color: #374151;
+  font-weight: 600;
+}
+
+.registration-form label span {
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+.registration-form select,
+.registration-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px 14px;
+  margin-bottom: 22px;
+  border: 1px solid #d1d5db;
+  border-radius: 9px;
+  font-size: 15px;
+  background: white;
+  outline: none;
+}
+
+.registration-form select:focus,
+.registration-form textarea:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.registration-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.register-submit-btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 9px;
+  background: #4f46e5;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.register-submit-btn:hover {
+  background: #4338ca;
+}
+
+.register-submit-btn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+.back-btn {
+  width: 100%;
+  margin-top: 12px;
+  padding: 13px;
+  border: 1px solid #d1d5db;
+  border-radius: 9px;
+  background: white;
+  color: #374151;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.back-btn:hover {
+  background: #f9fafb;
+}
+
+.status-message {
+  padding: 16px;
+  border-radius: 10px;
+  margin-bottom: 22px;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.pending-status {
+  background: #fff7ed;
+  color: #c2410c;
+  border: 1px solid #fed7aa;
+}
+
+.approved-status {
+  background: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+}
+
+.registration-loading,
+.registration-error {
+  max-width: 700px;
+  margin: 80px auto;
+  text-align: center;
+  background: white;
+  padding: 40px;
+  border-radius: 15px;
+}
+
+.registration-error h2 {
+  color: #dc2626;
+}
+
+.registration-error button {
+  margin-top: 15px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #4f46e5;
+  color: white;
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .event-registration-page {
+    padding: 100px 15px 40px;
+  }
+
+  .event-registration-card {
+    padding: 25px 20px;
+  }
+
+  .event-registration-card h1 {
+    font-size: 25px;
+  }
+}

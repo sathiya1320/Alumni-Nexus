@@ -1,0 +1,254 @@
+.staff-profile-page {
+  min-height: 100vh;
+
+  display: flex;
+
+  background: #f5f7fb;
+
+  font-family: "Poppins", sans-serif;
+}
+
+
+/* SIDEBAR */
+
+.staff-profile-sidebar {
+  width: 260px;
+
+  min-height: 100vh;
+
+  background:
+    linear-gradient(
+      180deg,
+      #102a43,
+      #163f67
+    );
+
+  color: white;
+
+  padding: 28px 20px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+
+.staff-profile-sidebar h2 {
+  margin-bottom: 25px;
+}
+
+
+.staff-profile-sidebar p {
+  font-size: 11px;
+
+  color: #cbd5e1;
+
+  letter-spacing: 1.5px;
+}
+
+
+.staff-profile-sidebar a,
+.staff-profile-sidebar button {
+  border: none;
+
+  background: transparent;
+
+  color: white;
+
+  text-decoration: none;
+
+  text-align: left;
+
+  padding: 13px 15px;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  font-size: 14px;
+}
+
+
+.staff-profile-sidebar a:hover,
+.staff-profile-sidebar button:hover {
+  background:
+    rgba(255,255,255,0.13);
+}
+
+
+.staff-profile-sidebar button {
+  margin-top: auto;
+}
+
+
+/* MAIN */
+
+.staff-profile-main {
+  flex: 1;
+
+  padding: 50px;
+}
+
+
+.staff-profile-header span {
+  color: #2563eb;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  letter-spacing: 2px;
+}
+
+
+.staff-profile-header h1 {
+  color: #163f67;
+
+  font-size: 38px;
+
+  margin: 10px 0;
+}
+
+
+.staff-profile-header p {
+  color: #64748b;
+
+  margin-bottom: 30px;
+}
+
+
+/* CARD */
+
+.staff-profile-card {
+  background: white;
+
+  border-radius: 24px;
+
+  padding: 40px;
+
+  max-width: 1000px;
+
+  box-shadow:
+    0 15px 40px rgba(0,0,0,0.08);
+}
+
+
+.staff-avatar-large {
+  width: 95px;
+  height: 95px;
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      135deg,
+      #163f67,
+      #2563eb
+    );
+
+  color: white;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 40px;
+
+  font-weight: 700;
+}
+
+
+.staff-profile-card h2 {
+  color: #163f67;
+
+  margin: 20px 0 8px;
+}
+
+
+.staff-role {
+  background: #eaf1ff;
+
+  color: #2563eb;
+
+  padding: 6px 14px;
+
+  border-radius: 20px;
+
+  font-size: 11px;
+
+  font-weight: 700;
+}
+
+
+/* GRID */
+
+.staff-info-grid {
+  margin-top: 35px;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 18px;
+}
+
+
+.staff-info-grid div {
+  background: #f7f9fc;
+
+  border: 1px solid #edf1f6;
+
+  border-radius: 14px;
+
+  padding: 20px;
+}
+
+
+.staff-info-grid small {
+  display: block;
+
+  color: #94a3b8;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  letter-spacing: 1px;
+
+  margin-bottom: 8px;
+}
+
+
+.staff-info-grid strong {
+  color: #163f67;
+
+  font-size: 14px;
+}
+
+
+@media (max-width: 800px) {
+
+  .staff-profile-page {
+    flex-direction: column;
+  }
+
+  .staff-profile-sidebar {
+    width: auto;
+
+    min-height: auto;
+  }
+
+  .staff-profile-main {
+    padding: 25px;
+  }
+
+  .staff-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+}

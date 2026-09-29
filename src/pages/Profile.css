@@ -1,0 +1,276 @@
+/* =====================================
+   PROFILE PAGE
+===================================== */
+
+.profile-page {
+
+  min-height: 100vh;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: flex-start;
+
+  padding: 60px 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f5f7fb,
+      #eef3ff
+    );
+
+  box-sizing: border-box;
+
+}
+
+
+
+/* =====================================
+   PROFILE CARD
+===================================== */
+
+.profile-card {
+
+  width: 100%;
+
+  max-width: 650px;
+
+  background: #ffffff;
+
+  padding: 40px;
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 15px 40px
+    rgba(0, 0, 0, 0.10);
+
+  box-sizing: border-box;
+
+}
+
+
+
+/* =====================================
+   HEADER
+===================================== */
+
+.profile-header {
+
+  text-align: center;
+
+  margin-bottom: 30px;
+
+}
+
+
+.profile-header h1 {
+
+  margin: 0;
+
+  color: #173f67;
+
+  font-size: 32px;
+
+  font-weight: 700;
+
+}
+
+
+.profile-header p {
+
+  margin-top: 8px;
+
+  color: #777;
+
+  font-size: 15px;
+
+}
+
+
+
+/* =====================================
+   FORM
+===================================== */
+
+.profile-form {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 20px;
+
+}
+
+
+
+/* =====================================
+   FORM GROUP
+===================================== */
+
+.form-group {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 8px;
+
+}
+
+
+.form-group label {
+
+  font-size: 15px;
+
+  font-weight: 600;
+
+  color: #173f67;
+
+}
+
+
+
+/* =====================================
+   INPUT
+===================================== */
+
+.form-group input,
+
+.form-group textarea {
+
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 13px 15px;
+
+  border: 1px solid #d5dbe3;
+
+  border-radius: 9px;
+
+  background: #ffffff;
+
+  font-size: 15px;
+
+  font-family: inherit;
+
+  color: #333;
+
+  outline: none;
+
+  transition: 0.2s ease;
+
+}
+
+
+.form-group input:focus,
+
+.form-group textarea:focus {
+
+  border-color: #2563eb;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(37, 99, 235, 0.10);
+
+}
+
+
+
+/* =====================================
+   TEXTAREA
+===================================== */
+
+.form-group textarea {
+
+  min-height: 120px;
+
+  resize: vertical;
+
+}
+
+
+
+/* =====================================
+   SAVE BUTTON
+===================================== */
+
+.save-btn {
+
+  width: 100%;
+
+  margin-top: 5px;
+
+  padding: 14px;
+
+  border: none;
+
+  border-radius: 9px;
+
+  background: #2563eb;
+
+  color: white;
+
+  font-size: 16px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+
+}
+
+
+.save-btn:hover {
+
+  background: #1d4ed8;
+
+  transform: translateY(-1px);
+
+}
+
+
+.save-btn:disabled {
+
+  background: #9ca3af;
+
+  cursor: not-allowed;
+
+  transform: none;
+
+}
+
+
+
+/* =====================================
+   MOBILE
+===================================== */
+
+@media (max-width: 600px) {
+
+  .profile-page {
+
+    padding: 30px 15px;
+
+  }
+
+
+  .profile-card {
+
+    padding: 25px 20px;
+
+  }
+
+
+  .profile-header h1 {
+
+    font-size: 26px;
+
+  }
+
+}

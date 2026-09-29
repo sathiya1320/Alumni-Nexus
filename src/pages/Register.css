@@ -1,0 +1,327 @@
+/* ==========================================
+   REGISTER PAGE
+========================================== */
+
+.register-page {
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 40px 20px;
+
+  background: #f5f7fb;
+}
+
+
+/* ==========================================
+   CARD
+========================================== */
+
+.register-card {
+  width: 100%;
+  max-width: 480px;
+
+  background: #ffffff;
+
+  border-radius: 22px;
+
+  padding: 42px 40px;
+
+  box-shadow:
+    0 15px 45px
+    rgba(15, 23, 42, 0.10);
+}
+
+
+/* ==========================================
+   HEADER
+========================================== */
+
+.register-header {
+  text-align: center;
+
+  margin-bottom: 30px;
+}
+
+.register-header h1 {
+  margin: 0;
+
+  font-size: 38px;
+
+  font-weight: 800;
+
+  color: #2563eb;
+}
+
+.register-icon {
+  margin: 22px 0 18px;
+
+  font-size: 38px;
+
+  color: #14213d;
+}
+
+.register-header p {
+  margin: 0;
+
+  font-size: 16px;
+
+  color: #526581;
+}
+
+
+/* ==========================================
+   FORM
+========================================== */
+
+.register-form {
+  width: 100%;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  color: #14213d;
+}
+
+
+/* ==========================================
+   INPUTS
+========================================== */
+
+.form-group input,
+.form-group select {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  height: 54px;
+
+  padding: 0 15px;
+
+  border: 1px solid #d0d7e2;
+
+  border-radius: 10px;
+
+  background: #ffffff;
+
+  color: #14213d;
+
+  font-size: 15px;
+
+  outline: none;
+
+  transition: 0.2s ease;
+}
+
+.form-group input::placeholder {
+  color: #9aa6b8;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #2563eb;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(37, 99, 235, 0.10);
+}
+
+
+/* ==========================================
+   ROLE DESCRIPTION
+========================================== */
+
+.role-description {
+  margin-top: 9px;
+
+  padding: 10px 12px;
+
+  border-radius: 8px;
+
+  background: #eef4ff;
+
+  color: #31547d;
+
+  font-size: 13px;
+
+  line-height: 1.4;
+}
+
+
+/* ==========================================
+   PASSWORD
+========================================== */
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper input {
+  padding-right: 48px;
+}
+
+.password-toggle {
+  position: absolute;
+
+  right: 14px;
+
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  border: none;
+
+  background: transparent;
+
+  color: #64748b;
+
+  font-size: 17px;
+
+  cursor: pointer;
+
+  padding: 5px;
+}
+
+
+/* ==========================================
+   ERROR
+========================================== */
+
+.register-error {
+  margin-bottom: 15px;
+
+  padding: 11px 13px;
+
+  border-radius: 8px;
+
+  background: #fff1f2;
+
+  color: #dc2626;
+
+  font-size: 14px;
+
+  text-align: center;
+}
+
+
+/* ==========================================
+   SUCCESS
+========================================== */
+
+.register-success {
+  margin-bottom: 15px;
+
+  padding: 11px 13px;
+
+  border-radius: 8px;
+
+  background: #ecfdf3;
+
+  color: #15803d;
+
+  font-size: 14px;
+
+  text-align: center;
+}
+
+
+/* ==========================================
+   CREATE ACCOUNT BUTTON
+========================================== */
+
+.create-account-btn {
+  width: 100%;
+
+  height: 54px;
+
+  margin-top: 5px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: #2563eb;
+
+  color: white;
+
+  font-size: 15px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.create-account-btn:hover {
+  background: #1d4ed8;
+}
+
+.create-account-btn:disabled {
+  opacity: 0.65;
+
+  cursor: not-allowed;
+}
+
+
+/* ==========================================
+   LOGIN LINK
+========================================== */
+
+.login-link {
+  margin-top: 25px;
+
+  text-align: center;
+
+  color: #667085;
+
+  font-size: 14px;
+}
+
+.login-link a {
+  color: #2563eb;
+
+  font-weight: 700;
+
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 550px) {
+
+  .register-page {
+    padding: 25px 15px;
+  }
+
+  .register-card {
+    padding: 32px 25px;
+
+    border-radius: 18px;
+  }
+
+  .register-header h1 {
+    font-size: 32px;
+  }
+
+}

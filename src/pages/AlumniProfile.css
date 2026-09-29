@@ -1,0 +1,579 @@
+/* ==========================================
+   PAGE
+========================================== */
+
+.alumni-profile-page {
+  min-height: 100vh;
+  display: flex;
+  background: #f5f7fb;
+  color: #1f2937;
+}
+
+/* ==========================================
+   SIDEBAR
+========================================== */
+
+.alumni-sidebar {
+  width: 250px;
+  min-height: 100vh;
+  background: #111827;
+  color: white;
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+}
+
+.sidebar-logo {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 25px;
+  font-size: 20px;
+  font-weight: 700;
+  border-bottom: 1px solid #273244;
+}
+
+.sidebar-logo svg {
+  font-size: 25px;
+}
+
+.sidebar-menu {
+  padding: 25px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.sidebar-menu button,
+.sidebar-logout {
+  border: none;
+  background: transparent;
+  color: #cbd5e1;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 13px 15px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: left;
+  transition: 0.2s;
+}
+
+.sidebar-menu button:hover,
+.sidebar-menu button.active {
+  background: #2563eb;
+  color: white;
+}
+
+.sidebar-logout {
+  margin: auto 15px 25px;
+  color: #fca5a5;
+}
+
+.sidebar-logout:hover {
+  background: #7f1d1d;
+  color: white;
+}
+
+/* ==========================================
+   MAIN
+========================================== */
+
+.alumni-profile-main {
+  margin-left: 250px;
+  width: calc(100% - 250px);
+  padding: 35px 45px;
+}
+
+/* ==========================================
+   TOPBAR
+========================================== */
+
+.profile-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.profile-topbar h1 {
+  margin: 0;
+  font-size: 30px;
+  color: #111827;
+}
+
+.profile-topbar p {
+  margin: 7px 0 0;
+  color: #6b7280;
+}
+
+.profile-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.profile-user strong {
+  display: block;
+}
+
+.profile-user span {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.profile-avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: #2563eb;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+/* ==========================================
+   PROFILE CARD
+========================================== */
+
+.profile-card {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 5px 25px rgba(15, 23, 42, 0.07);
+  overflow: hidden;
+}
+
+/* ==========================================
+   PROFILE CARD HEADER
+========================================== */
+
+.profile-card-header {
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.big-avatar {
+  width: 85px;
+  height: 85px;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #4f46e5
+  );
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34px;
+  font-weight: 700;
+}
+
+.profile-heading {
+  flex: 1;
+}
+
+.profile-heading h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.profile-heading p {
+  margin: 5px 0;
+  color: #2563eb;
+  font-weight: 600;
+}
+
+.profile-heading span {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* ==========================================
+   BUTTONS
+========================================== */
+
+.edit-profile-btn,
+.save-btn,
+.cancel-btn {
+  border: none;
+  border-radius: 8px;
+  padding: 11px 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.edit-profile-btn {
+  background: #2563eb;
+  color: white;
+}
+
+.edit-profile-btn:hover {
+  background: #1d4ed8;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.cancel-btn {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.save-btn {
+  background: #16a34a;
+  color: white;
+}
+
+.save-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ==========================================
+   SECTIONS
+========================================== */
+
+.profile-section {
+  padding: 30px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.profile-section:last-child {
+  border-bottom: none;
+}
+
+.profile-section h3 {
+  margin: 0 0 22px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 18px;
+  color: #111827;
+}
+
+/* ==========================================
+   GRID
+========================================== */
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+}
+
+.profile-field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+
+.profile-field p {
+  margin: 0;
+  padding: 12px 14px;
+  background: #f8fafc;
+  border-radius: 7px;
+  min-height: 20px;
+  color: #1f2937;
+}
+
+/* ==========================================
+   INPUT
+========================================== */
+
+.profile-field input,
+.full-input,
+.full-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #cbd5e1;
+  border-radius: 7px;
+  padding: 12px 14px;
+  font-size: 14px;
+  outline: none;
+  background: white;
+}
+
+.profile-field input:focus,
+.full-input:focus,
+.full-textarea:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.full-input {
+  display: block;
+}
+
+.full-textarea {
+  resize: vertical;
+  font-family: inherit;
+}
+
+/* ==========================================
+   SKILLS
+========================================== */
+
+.skills-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.skill-tag {
+  background: #dbeafe;
+  color: #1d4ed8;
+  padding: 7px 13px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ==========================================
+   ABOUT
+========================================== */
+
+.about-text {
+  color: #475569;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ==========================================
+   LINKEDIN
+========================================== */
+
+.linkedin-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #0a66c2;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.linkedin-link:hover {
+  text-decoration: underline;
+}
+
+/* ==========================================
+   RESUME
+========================================== */
+
+.resume-upload-box {
+  border: 2px dashed #cbd5e1;
+  border-radius: 12px;
+  padding: 25px;
+  background: #f8fafc;
+}
+
+.resume-upload-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.resume-icon {
+  font-size: 38px;
+  color: #dc2626;
+}
+
+.resume-upload-info strong {
+  font-size: 16px;
+}
+
+.resume-upload-info p {
+  margin: 5px 0 0;
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.resume-upload-box input[type="file"] {
+  display: block;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.selected-file {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 13px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 7px;
+  margin-bottom: 15px;
+  color: #334155;
+}
+
+.selected-file svg {
+  color: #dc2626;
+}
+
+.upload-resume-btn {
+  border: none;
+  background: #2563eb;
+  color: white;
+  padding: 11px 17px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.upload-resume-btn:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+.existing-resume {
+  margin: 15px 0 0;
+  color: #64748b;
+  font-size: 13px;
+}
+
+/* ==========================================
+   RESUME DISPLAY
+========================================== */
+
+.resume-display-box {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 18px;
+  background: #f8fafc;
+}
+
+.resume-file {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.resume-file > svg {
+  font-size: 32px;
+  color: #dc2626;
+}
+
+.resume-file strong {
+  display: block;
+}
+
+.resume-file small {
+  display: block;
+  margin-top: 4px;
+  color: #64748b;
+}
+
+.view-resume-btn {
+  margin-top: 15px;
+  border: none;
+  background: #2563eb;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 7px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.view-resume-btn:hover {
+  background: #1d4ed8;
+}
+
+.no-resume {
+  text-align: center;
+  padding: 20px;
+  color: #64748b;
+}
+
+.no-resume svg {
+  font-size: 35px;
+  color: #cbd5e1;
+}
+
+.no-resume p {
+  margin: 10px 0 5px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.no-resume span {
+  font-size: 13px;
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 900px) {
+  .alumni-sidebar {
+    width: 210px;
+  }
+
+  .alumni-profile-main {
+    margin-left: 210px;
+    width: calc(100% - 210px);
+    padding: 25px;
+  }
+
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .alumni-sidebar {
+    position: relative;
+    width: 100%;
+    min-height: auto;
+  }
+
+  .alumni-profile-page {
+    flex-direction: column;
+  }
+
+  .alumni-profile-main {
+    margin-left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+  }
+
+  .profile-topbar {
+    align-items: flex-start;
+    gap: 15px;
+    flex-direction: column;
+  }
+
+  .profile-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .edit-actions {
+    width: 100%;
+  }
+}

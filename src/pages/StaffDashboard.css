@@ -1,0 +1,640 @@
+/* =====================================================
+   STAFF DASHBOARD
+===================================================== */
+
+.staff-dashboard {
+  min-height: 100vh;
+  display: flex;
+  background: #f5f7fb;
+  font-family: "Poppins", sans-serif;
+  color: #172b4d;
+}
+
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
+
+.staff-sidebar {
+  width: 270px;
+  min-height: 100vh;
+
+  background: linear-gradient(
+    180deg,
+    #102a43 0%,
+    #163f67 50%,
+    #0d2945 100%
+  );
+
+  color: white;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 28px 20px;
+
+  position: sticky;
+  top: 0;
+
+  box-shadow: 5px 0 25px rgba(15, 42, 67, 0.15);
+}
+
+
+/* Logo */
+
+.staff-logo {
+  font-size: 22px;
+  font-weight: 700;
+
+  padding: 12px 10px 28px;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+
+  letter-spacing: 0.3px;
+}
+
+
+/* Label */
+
+.staff-label {
+  font-size: 11px;
+  font-weight: 700;
+
+  color: #9fb7d1;
+
+  letter-spacing: 1.5px;
+
+  margin: 28px 10px 14px;
+}
+
+
+/* Navigation */
+
+.staff-sidebar nav {
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+
+.staff-sidebar nav a {
+  color: #dce9f5;
+
+  text-decoration: none;
+
+  padding: 13px 15px;
+
+  border-radius: 10px;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  transition: all 0.25s ease;
+
+  display: flex;
+  align-items: center;
+}
+
+
+.staff-sidebar nav a:hover {
+  background: rgba(255, 255, 255, 0.12);
+
+  color: white;
+
+  transform: translateX(4px);
+}
+
+
+/* Logout */
+
+.staff-logout {
+  margin-top: auto;
+
+  border: none;
+
+  background: rgba(255, 255, 255, 0.1);
+
+  color: white;
+
+  padding: 13px 15px;
+
+  border-radius: 10px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+}
+
+
+.staff-logout:hover {
+  background: #e63946;
+
+  transform: translateY(-2px);
+}
+
+
+/* =====================================================
+   MAIN CONTENT
+===================================================== */
+
+.staff-main {
+  flex: 1;
+
+  padding: 45px 55px;
+
+  max-width: 1400px;
+}
+
+
+/* =====================================================
+   HERO SECTION
+===================================================== */
+
+.staff-hero {
+  min-height: 260px;
+
+  background:
+    linear-gradient(
+      120deg,
+      #163f67,
+      #2563eb
+    );
+
+  border-radius: 24px;
+
+  padding: 45px 50px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  color: white;
+
+  position: relative;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 20px 45px rgba(37, 99, 235, 0.22);
+}
+
+
+/* Decorative circles */
+
+.staff-hero::before {
+  content: "";
+
+  position: absolute;
+
+  width: 250px;
+  height: 250px;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.07);
+
+  right: 120px;
+  top: -100px;
+}
+
+
+.staff-hero::after {
+  content: "";
+
+  position: absolute;
+
+  width: 180px;
+  height: 180px;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.06);
+
+  right: -50px;
+  bottom: -70px;
+}
+
+
+/* Hero text */
+
+.staff-hero span {
+  font-size: 12px;
+
+  font-weight: 700;
+
+  letter-spacing: 2px;
+
+  color: #dbeafe;
+}
+
+
+.staff-hero h1 {
+  margin: 15px 0;
+
+  font-size: 40px;
+
+  line-height: 1.15;
+
+  font-weight: 800;
+
+  position: relative;
+
+  z-index: 2;
+}
+
+
+.staff-hero p {
+  max-width: 600px;
+
+  font-size: 15px;
+
+  line-height: 1.7;
+
+  color: #e1ecf8;
+
+  margin: 0;
+}
+
+
+/* Staff icon */
+
+.staff-icon {
+  width: 125px;
+  height: 125px;
+
+  border-radius: 30px;
+
+  background: rgba(255, 255, 255, 0.13);
+
+  backdrop-filter: blur(10px);
+
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  font-size: 65px;
+
+  margin-right: 35px;
+
+  position: relative;
+
+  z-index: 2;
+
+  border: 1px solid rgba(255, 255, 255, 0.15);
+
+  box-shadow:
+    0 15px 30px rgba(0, 0, 0, 0.12);
+}
+
+
+/* =====================================================
+   SECTION TITLE
+===================================================== */
+
+.staff-title {
+  margin: 45px 0 22px;
+
+  font-size: 25px;
+
+  font-weight: 750;
+
+  color: #163f67;
+}
+
+
+/* =====================================================
+   ADMIN CARDS
+===================================================== */
+
+.staff-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: 22px;
+}
+
+
+.staff-card {
+  background: white;
+
+  border-radius: 18px;
+
+  padding: 27px;
+
+  min-height: 235px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  box-shadow:
+    0 8px 25px rgba(31, 52, 73, 0.07);
+
+  border: 1px solid #edf1f6;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+
+.staff-card:hover {
+  transform: translateY(-7px);
+
+  box-shadow:
+    0 18px 35px rgba(31, 52, 73, 0.12);
+}
+
+
+/* Card icon */
+
+.staff-card > div:first-child {
+  width: 52px;
+  height: 52px;
+
+  border-radius: 14px;
+
+  background: #eef4ff;
+
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  font-size: 25px;
+
+  margin-bottom: 18px;
+}
+
+
+.staff-card h3 {
+  margin: 0 0 10px;
+
+  font-size: 18px;
+
+  color: #163f67;
+}
+
+
+.staff-card p {
+  margin: 0;
+
+  color: #66788a;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+
+  flex: 1;
+}
+
+
+.staff-card a {
+  margin-top: 20px;
+
+  text-decoration: none;
+
+  color: #2563eb;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  transition: 0.2s ease;
+}
+
+
+.staff-card a:hover {
+  color: #163f67;
+
+  transform: translateX(3px);
+}
+
+
+/* =====================================================
+   STAFF ACCOUNT
+===================================================== */
+
+.staff-account {
+  margin-top: 45px;
+
+  background: white;
+
+  border-radius: 20px;
+
+  padding: 30px;
+
+  border: 1px solid #edf1f6;
+
+  box-shadow:
+    0 8px 25px rgba(31, 52, 73, 0.06);
+}
+
+
+.staff-account h2 {
+  margin: 0 0 25px;
+
+  color: #163f67;
+
+  font-size: 22px;
+}
+
+
+/* Profile grid */
+
+.staff-profile {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap: 20px;
+}
+
+
+.staff-profile > div {
+  background: #f7f9fc;
+
+  padding: 18px;
+
+  border-radius: 12px;
+
+  border: 1px solid #edf1f6;
+}
+
+
+.staff-profile span {
+  display: block;
+
+  font-size: 11px;
+
+  text-transform: uppercase;
+
+  letter-spacing: 1px;
+
+  font-weight: 700;
+
+  color: #8293a6;
+
+  margin-bottom: 8px;
+}
+
+
+.staff-profile strong {
+  display: block;
+
+  font-size: 14px;
+
+  color: #163f67;
+
+  word-break: break-word;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 1200px) {
+
+  .staff-grid {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+  .staff-profile {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+}
+
+
+@media (max-width: 900px) {
+
+  .staff-sidebar {
+    width: 220px;
+  }
+
+  .staff-main {
+    padding: 30px;
+  }
+
+  .staff-hero {
+    padding: 35px;
+  }
+
+  .staff-hero h1 {
+    font-size: 32px;
+  }
+
+  .staff-icon {
+    width: 100px;
+    height: 100px;
+
+    font-size: 50px;
+
+    margin-right: 0;
+  }
+
+}
+
+
+@media (max-width: 700px) {
+
+  .staff-dashboard {
+    flex-direction: column;
+  }
+
+  .staff-sidebar {
+    width: 100%;
+
+    min-height: auto;
+
+    position: relative;
+
+    padding: 18px;
+  }
+
+  .staff-label {
+    margin-top: 18px;
+  }
+
+  .staff-sidebar nav {
+    display: grid;
+
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+  .staff-logout {
+    margin-top: 20px;
+  }
+
+  .staff-main {
+    padding: 20px;
+  }
+
+  .staff-hero {
+    min-height: auto;
+
+    padding: 30px;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 25px;
+  }
+
+  .staff-hero h1 {
+    font-size: 30px;
+  }
+
+  .staff-icon {
+    align-self: flex-end;
+  }
+
+  .staff-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .staff-profile {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+@media (max-width: 450px) {
+
+  .staff-sidebar nav {
+    grid-template-columns: 1fr;
+  }
+
+  .staff-hero {
+    padding: 25px;
+  }
+
+  .staff-hero h1 {
+    font-size: 26px;
+  }
+
+  .staff-card {
+    padding: 22px;
+  }
+
+  .staff-account {
+    padding: 22px;
+  }
+
+}

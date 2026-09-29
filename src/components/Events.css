@@ -1,0 +1,363 @@
+.events-page {
+  min-height: 100vh;
+  padding: 45px;
+  background: #f5f7fb;
+}
+
+
+/* ==========================================
+   HEADER
+========================================== */
+
+.events-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 35px;
+}
+
+
+.events-header h1 {
+  margin: 0;
+  font-size: 38px;
+  color: #102a56;
+}
+
+
+.events-header p {
+  margin-top: 10px;
+  color: #64748b;
+  font-size: 16px;
+}
+
+
+/* ==========================================
+   CREATE EVENT
+========================================== */
+
+.create-event-btn {
+  border: none;
+  background: #2864e8;
+  color: white;
+  padding: 14px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+
+.create-event-btn:hover {
+  background: #1d4ed8;
+}
+
+
+/* ==========================================
+   GRID
+========================================== */
+
+.events-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 22px;
+}
+
+
+/* ==========================================
+   CARD
+========================================== */
+
+.event-card {
+  background: white;
+  padding: 26px;
+  border-radius: 16px;
+
+  box-shadow:
+    0 8px 25px
+    rgba(15, 23, 42, 0.08);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.event-card:hover {
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 14px 30px
+    rgba(15, 23, 42, 0.12);
+}
+
+
+/* ==========================================
+   CATEGORY
+========================================== */
+
+.event-category {
+  display: inline-block;
+
+  background: #e4edff;
+
+  color: #2563eb;
+
+  padding: 7px 13px;
+
+  border-radius: 20px;
+
+  font-size: 13px;
+
+  font-weight: 600;
+}
+
+
+/* ==========================================
+   TITLE
+========================================== */
+
+.event-card h2 {
+  color: #102a56;
+
+  font-size: 23px;
+
+  margin:
+    22px 0 20px;
+}
+
+
+/* ==========================================
+   INFO
+========================================== */
+
+.event-info {
+  color: #64748b;
+
+  margin:
+    13px 0;
+
+  font-size: 15px;
+}
+
+
+/* ==========================================
+   DESCRIPTION
+========================================== */
+
+.event-description {
+  color: #64748b;
+
+  line-height: 1.6;
+
+  margin-top: 28px;
+
+  min-height: 70px;
+}
+
+
+/* ==========================================
+   CREATED
+========================================== */
+
+.event-created {
+  color: #64748b;
+
+  font-size: 13px;
+
+  margin-top: 20px;
+}
+
+
+/* ==========================================
+   REGISTER
+========================================== */
+
+.register-btn,
+.registered-btn {
+  width: 100%;
+
+  border: none;
+
+  padding: 14px;
+
+  border-radius: 9px;
+
+  margin-top: 20px;
+
+  font-size: 15px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+
+.register-btn {
+  background: #2864e8;
+
+  color: white;
+}
+
+
+.register-btn:hover {
+  background: #1d4ed8;
+}
+
+
+.registered-btn {
+  background: #dcfce7;
+
+  color: #15803d;
+
+  cursor: default;
+}
+
+
+/* ==========================================
+   STAFF
+========================================== */
+
+.staff-event-info {
+  margin-top: 20px;
+
+  padding: 12px;
+
+  background: #f1f5f9;
+
+  border-radius: 8px;
+
+  color: #475569;
+
+  font-size: 14px;
+}
+
+
+/* ==========================================
+   LOADING
+========================================== */
+
+.events-message {
+  text-align: center;
+
+  padding: 100px;
+
+  color: #64748b;
+}
+
+
+.event-spinner {
+  width: 35px;
+
+  height: 35px;
+
+  border: 4px solid #e2e8f0;
+
+  border-top-color: #2864e8;
+
+  border-radius: 50%;
+
+  animation:
+    spin 0.8s linear infinite;
+
+  margin:
+    0 auto 15px;
+}
+
+
+@keyframes spin {
+
+  to {
+    transform: rotate(360deg);
+  }
+
+}
+
+
+/* ==========================================
+   EMPTY
+========================================== */
+
+.no-events {
+  text-align: center;
+
+  background: white;
+
+  padding: 70px;
+
+  border-radius: 16px;
+}
+
+
+.no-events h2 {
+  color: #102a56;
+}
+
+
+.no-events p {
+  color: #64748b;
+}
+
+
+/* ==========================================
+   ERROR
+========================================== */
+
+.events-error {
+  background: #fee2e2;
+
+  color: #991b1b;
+
+  padding: 25px;
+
+  border-radius: 12px;
+}
+
+
+.events-error button {
+  margin-top: 10px;
+
+  border: none;
+
+  padding: 10px 18px;
+
+  border-radius: 7px;
+
+  cursor: pointer;
+}
+
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 1000px) {
+
+  .events-grid {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+}
+
+
+@media (max-width: 650px) {
+
+  .events-page {
+    padding: 25px;
+  }
+
+  .events-header {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 20px;
+  }
+
+  .events-grid {
+    grid-template-columns: 1fr;
+  }
+
+}

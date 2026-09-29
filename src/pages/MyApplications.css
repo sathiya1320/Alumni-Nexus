@@ -1,0 +1,139 @@
+.applications-page {
+  min-height: 100vh;
+  background: #f5f7fb;
+  padding: 40px 7%;
+}
+
+.applications-header button {
+  border: none;
+  background: none;
+  color: #3564d9;
+  cursor: pointer;
+}
+
+.applications-header h1 {
+  color: #12244f;
+  margin-bottom: 5px;
+}
+
+.applications-header p {
+  color: #667085;
+}
+
+.applications-list {
+  margin-top: 30px;
+  display: grid;
+  gap: 15px;
+}
+
+.application-card {
+  background: white;
+  padding: 23px;
+  border-radius: 15px;
+  border: 1px solid #e7ebf2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.application-card h2 {
+  margin: 0 0 5px;
+  color: #12244f;
+}
+
+.application-card h3 {
+  margin: 0 0 8px;
+  color: #667085;
+  font-weight: 500;
+}
+
+.application-card p {
+  color: #667085;
+}
+
+.application-card small {
+  color: #98a2b3;
+}
+
+.application-status {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.status {
+  padding: 8px 13px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  background: #eef4ff;
+  color: #3564d9;
+}
+
+.status.shortlisted {
+  background: #ecfdf3;
+  color: #16804b;
+}
+
+.status.selected {
+  background: #ecfdf3;
+  color: #027a48;
+}
+
+.status.rejected {
+  background: #fef3f2;
+  color: #d92d20;
+}
+
+.status.under-review {
+  background: #fffaeb;
+  color: #b54708;
+}
+
+.application-status button,
+.empty-applications button {
+  border: none;
+  background: #3564d9;
+  color: white;
+  padding: 9px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.empty-applications {
+  margin-top: 40px;
+  background: white;
+  padding: 70px 20px;
+  text-align: center;
+  border-radius: 17px;
+}
+
+.empty-applications div {
+  font-size: 45px;
+}
+
+.empty-applications h2 {
+  color: #12244f;
+}
+
+.empty-applications p {
+  color: #667085;
+}
+
+.applications-loading {
+  text-align: center;
+  padding: 100px;
+}
+
+@media (max-width: 650px) {
+  .application-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .application-status {
+    align-items: flex-start;
+  }
+}

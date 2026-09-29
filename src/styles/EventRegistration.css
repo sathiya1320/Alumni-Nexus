@@ -1,0 +1,311 @@
+.event-registration-page {
+
+  min-height: 100vh;
+
+  padding: 50px 20px;
+
+  background: #f5f7fb;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: flex-start;
+
+}
+
+
+.event-registration-card {
+
+  width: 100%;
+
+  max-width: 650px;
+
+  background: white;
+
+  padding: 40px;
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 10px 35px
+    rgba(15, 23, 42, 0.08);
+
+}
+
+
+.registration-header {
+
+  text-align: center;
+
+  margin-bottom: 30px;
+
+}
+
+
+.registration-icon {
+
+  width: 65px;
+
+  height: 65px;
+
+  margin: 0 auto 15px;
+
+  border-radius: 50%;
+
+  background: #e0ebff;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 30px;
+
+}
+
+
+.registration-header h1 {
+
+  margin: 0;
+
+  color: #14213d;
+
+  font-size: 30px;
+
+}
+
+
+.registration-header p {
+
+  margin-top: 8px;
+
+  color: #667085;
+
+}
+
+
+.registration-form {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 20px;
+
+}
+
+
+.form-group {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 8px;
+
+}
+
+
+.form-group label {
+
+  font-weight: 700;
+
+  color: #344054;
+
+  font-size: 14px;
+
+}
+
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+
+  width: 100%;
+
+  box-sizing: border-box;
+
+  border: 1px solid #d0d5dd;
+
+  border-radius: 10px;
+
+  padding: 13px 14px;
+
+  font-size: 15px;
+
+  outline: none;
+
+  font-family: inherit;
+
+  background: white;
+
+}
+
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+
+  border-color: #2563eb;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(37, 99, 235, 0.1);
+
+}
+
+
+.form-group textarea {
+
+  resize: vertical;
+
+}
+
+
+.loading-text {
+
+  padding: 13px;
+
+  color: #667085;
+
+  background: #f8fafc;
+
+  border-radius: 10px;
+
+}
+
+
+.registration-error {
+
+  margin-bottom: 20px;
+
+  padding: 13px 15px;
+
+  border-radius: 10px;
+
+  background: #fff1f2;
+
+  color: #dc2626;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+}
+
+
+.registration-success {
+
+  margin-bottom: 20px;
+
+  padding: 13px 15px;
+
+  border-radius: 10px;
+
+  background: #ecfdf3;
+
+  color: #15803d;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+}
+
+
+.register-event-submit {
+
+  width: 100%;
+
+  border: none;
+
+  padding: 15px;
+
+  border-radius: 10px;
+
+  background: #2563eb;
+
+  color: white;
+
+  font-size: 16px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+
+}
+
+
+.register-event-submit:hover {
+
+  background: #1d4ed8;
+
+}
+
+
+.register-event-submit:disabled {
+
+  opacity: 0.6;
+
+  cursor: not-allowed;
+
+}
+
+
+.back-events-btn {
+
+  width: 100%;
+
+  padding: 13px;
+
+  border: 1px solid #d0d5dd;
+
+  border-radius: 10px;
+
+  background: white;
+
+  color: #344054;
+
+  font-size: 15px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+}
+
+
+.back-events-btn:hover {
+
+  background: #f8fafc;
+
+}
+
+
+@media (max-width: 600px) {
+
+  .event-registration-page {
+
+    padding: 25px 15px;
+
+  }
+
+
+  .event-registration-card {
+
+    padding: 25px 20px;
+
+  }
+
+
+  .registration-header h1 {
+
+    font-size: 25px;
+
+  }
+
+}

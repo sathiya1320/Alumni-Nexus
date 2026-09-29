@@ -1,0 +1,176 @@
+.professional-page {
+  min-height: 100vh;
+  background: #f5f7fb;
+  padding: 40px 8%;
+}
+
+.professional-header {
+  margin-bottom: 30px;
+}
+
+.professional-header button {
+  border: none;
+  background: none;
+  color: #3564d9;
+  cursor: pointer;
+}
+
+.professional-header h1 {
+  color: #12244f;
+  margin: 15px 0 5px;
+}
+
+.professional-header p {
+  color: #667085;
+}
+
+.professional-section {
+  background: white;
+  padding: 28px;
+  border-radius: 17px;
+  border: 1px solid #e7ebf2;
+  margin-bottom: 20px;
+  max-width: 850px;
+}
+
+.section-heading {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.section-icon {
+  width: 48px;
+  height: 48px;
+  background: #eef4ff;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.section-heading h2 {
+  margin: 0;
+  color: #12244f;
+}
+
+.section-heading p {
+  margin: 5px 0 0;
+  color: #667085;
+}
+
+.professional-section label {
+  display: block;
+  margin-bottom: 8px;
+  color: #344054;
+  font-weight: 600;
+}
+
+.professional-section input[type="url"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px;
+  border: 1px solid #dfe4ec;
+  border-radius: 9px;
+  outline: none;
+}
+
+.professional-section input[type="file"] {
+  width: 100%;
+  margin-top: 18px;
+}
+
+.current-link {
+  display: block;
+  margin-top: 12px;
+  color: #3564d9;
+  text-decoration: none;
+}
+
+.save-profile-btn {
+  margin-top: 18px;
+  border: none;
+  background: #3564d9;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 9px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.current-resume {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  background: #f7f9fc;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.current-resume > span {
+  font-size: 25px;
+}
+
+.current-resume div {
+  flex: 1;
+}
+
+.current-resume strong,
+.current-resume small {
+  display: block;
+}
+
+.current-resume small {
+  color: #98a2b3;
+  margin-top: 4px;
+}
+
+.current-resume a {
+  color: #3564d9;
+}
+
+.file-info {
+  display: block;
+  margin-top: 8px;
+  color: #98a2b3;
+}
+
+.readiness-card {
+  max-width: 850px;
+  background: white;
+  padding: 28px;
+  border-radius: 17px;
+  border: 1px solid #e7ebf2;
+}
+
+.readiness-card h2 {
+  color: #12244f;
+}
+
+.readiness-item {
+  padding: 12px 0;
+  color: #475467;
+}
+
+.readiness-item span {
+  margin-right: 8px;
+  color: #12b76a;
+  font-weight: bold;
+}
+
+.ready-message {
+  margin-top: 15px;
+  padding: 14px;
+  border-radius: 9px;
+  background: #ecfdf3;
+  color: #16804b;
+}
+
+.warning-message {
+  margin-top: 15px;
+  padding: 14px;
+  border-radius: 9px;
+  background: #fffaeb;
+  color: #b54708;
+}

@@ -1,0 +1,278 @@
+.jobs-page {
+  min-height: 100vh;
+  padding: 45px 6%;
+  background: #f5f7fb;
+}
+
+.jobs-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 35px;
+}
+
+.jobs-small-title {
+  color: #3564d9;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.jobs-header h1 {
+  margin: 8px 0;
+  font-size: 42px;
+  color: #12244f;
+}
+
+.jobs-header h1 span {
+  color: #3564d9;
+}
+
+.jobs-subtitle {
+  color: #667085;
+  font-size: 16px;
+}
+
+.post-job-btn {
+  border: none;
+  background: #3564d9;
+  color: white;
+  padding: 13px 22px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.jobs-search-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: white;
+  border: 1px solid #e1e6ef;
+  padding: 15px 18px;
+  border-radius: 13px;
+  margin-bottom: 20px;
+}
+
+.jobs-search-box span {
+  font-size: 19px;
+}
+
+.jobs-search-box input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 15px;
+}
+
+.jobs-filters {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+}
+
+.jobs-filters select {
+  padding: 11px 15px;
+  border: 1px solid #dfe4ec;
+  background: white;
+  border-radius: 9px;
+  color: #344054;
+}
+
+.applications-btn {
+  margin-left: auto;
+  border: none;
+  background: #12244f;
+  color: white;
+  padding: 11px 17px;
+  border-radius: 9px;
+  cursor: pointer;
+}
+
+.job-count {
+  color: #667085;
+  margin-bottom: 18px;
+}
+
+.jobs-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(320px, 1fr)
+  );
+  gap: 22px;
+}
+
+.job-card {
+  background: white;
+  border-radius: 17px;
+  padding: 24px;
+  border: 1px solid #e8ecf3;
+  box-shadow: 0 8px 30px rgba(
+    20,
+    35,
+    70,
+    0.06
+  );
+  transition: 0.25s;
+}
+
+.job-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 35px rgba(
+    20,
+    35,
+    70,
+    0.11
+  );
+}
+
+.job-card-top {
+  display: flex;
+  gap: 15px;
+}
+
+.company-logo {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: #e8efff;
+  color: #3564d9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.job-type {
+  font-size: 12px;
+  background: #eef4ff;
+  color: #3564d9;
+  padding: 5px 9px;
+  border-radius: 20px;
+}
+
+.job-card h2 {
+  margin: 10px 0 3px;
+  font-size: 21px;
+  color: #12244f;
+}
+
+.company-name {
+  margin: 0;
+  color: #667085;
+}
+
+.job-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 22px 0;
+}
+
+.job-info span {
+  background: #f6f8fb;
+  padding: 7px 9px;
+  border-radius: 7px;
+  font-size: 12px;
+  color: #475467;
+}
+
+.job-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.job-skills span {
+  padding: 6px 10px;
+  background: #eef4ff;
+  color: #315dc5;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.job-description {
+  color: #667085;
+  line-height: 1.6;
+  min-height: 70px;
+}
+
+.job-footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  border-top: 1px solid #edf0f5;
+  padding-top: 18px;
+}
+
+.job-footer div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.job-footer small {
+  color: #98a2b3;
+}
+
+.job-footer strong {
+  color: #344054;
+  font-size: 13px;
+}
+
+.job-footer button {
+  border: none;
+  background: #3564d9;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.no-jobs {
+  text-align: center;
+  background: white;
+  padding: 80px 20px;
+  border-radius: 18px;
+}
+
+.no-jobs-icon {
+  font-size: 50px;
+}
+
+.no-jobs h2 {
+  color: #12244f;
+}
+
+.no-jobs p {
+  color: #667085;
+}
+
+.jobs-loading {
+  padding: 100px;
+  text-align: center;
+}
+
+@media (max-width: 700px) {
+  .jobs-page {
+    padding: 30px 20px;
+  }
+
+  .jobs-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .jobs-header h1 {
+    font-size: 32px;
+  }
+
+  .applications-btn {
+    margin-left: 0;
+  }
+}

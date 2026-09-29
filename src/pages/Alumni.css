@@ -1,0 +1,542 @@
+/* =========================================
+   ALUMNI PAGE
+========================================= */
+
+.alumni-page {
+  min-height: 100vh;
+  padding: 40px;
+  background: #f5f7fb;
+}
+
+
+/* =========================================
+   HERO
+========================================= */
+
+.alumni-hero {
+  min-height: 190px;
+  padding: 45px;
+  border-radius: 22px;
+
+  display: flex;
+  align-items: center;
+
+  background: linear-gradient(
+    135deg,
+    #37318f,
+    #7b35f2
+  );
+
+  box-shadow:
+    0 15px 35px rgba(
+      72,
+      52,
+      180,
+      0.22
+    );
+}
+
+
+.alumni-hero h1 {
+  margin: 0 0 12px;
+
+  color: #ffffff;
+
+  font-size: 38px;
+  font-weight: 800;
+}
+
+
+.alumni-hero p {
+  margin: 0;
+
+  color: rgba(
+    255,
+    255,
+    255,
+    0.85
+  );
+
+  font-size: 16px;
+}
+
+
+/* =========================================
+   SEARCH
+========================================= */
+
+.alumni-search {
+  margin-top: 30px;
+
+  height: 58px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+
+  padding: 0 20px;
+
+  background: #ffffff;
+
+  border: 1px solid #e1e5ee;
+
+  border-radius: 14px;
+
+  box-shadow:
+    0 5px 18px rgba(
+      0,
+      0,
+      0,
+      0.04
+    );
+}
+
+
+.alumni-search svg {
+  color: #667085;
+
+  font-size: 18px;
+}
+
+
+.alumni-search input {
+  width: 100%;
+
+  border: none;
+
+  outline: none;
+
+  font-size: 16px;
+
+  color: #222;
+
+  background: transparent;
+}
+
+
+.alumni-search input::placeholder {
+  color: #98a2b3;
+}
+
+
+/* =========================================
+   RESULT INFO
+========================================= */
+
+.result-info {
+  margin: 22px 0;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  color: #667085;
+}
+
+
+.result-info strong {
+  color: #2f5bea;
+
+  font-size: 20px;
+}
+
+
+.clear-search {
+  border: none;
+
+  background: transparent;
+
+  color: #2f5bea;
+
+  cursor: pointer;
+
+  font-weight: 600;
+}
+
+
+/* =========================================
+   GRID
+========================================= */
+
+.alumni-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fill,
+      minmax(280px, 1fr)
+    );
+
+  gap: 24px;
+}
+
+
+/* =========================================
+   CARD
+========================================= */
+
+.alumni-card {
+  padding: 28px;
+
+  background: #ffffff;
+
+  border-radius: 20px;
+
+  text-align: center;
+
+  box-shadow:
+    0 8px 25px rgba(
+      0,
+      0,
+      0,
+      0.08
+    );
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+
+.alumni-card:hover {
+  transform: translateY(-5px);
+
+  box-shadow:
+    0 14px 35px rgba(
+      0,
+      0,
+      0,
+      0.12
+    );
+}
+
+
+/* =========================================
+   AVATAR
+========================================= */
+
+.member-avatar {
+  width: 70px;
+  height: 70px;
+
+  margin: 0 auto 18px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 18px;
+
+  background: linear-gradient(
+    135deg,
+    #4f46e5,
+    #7c3aed
+  );
+
+  color: white;
+
+  font-size: 28px;
+
+  font-weight: 700;
+}
+
+
+.alumni-card h2 {
+  margin: 0 0 8px;
+
+  color: #172033;
+
+  font-size: 21px;
+}
+
+
+/* =========================================
+   ROLE
+========================================= */
+
+.member-role {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 7px;
+
+  margin-bottom: 18px;
+
+  color: #667085;
+
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+
+.member-role svg {
+  color: #4f46e5;
+}
+
+
+/* =========================================
+   DETAILS
+========================================= */
+
+.member-detail,
+.member-skills {
+  margin: 8px 0;
+
+  color: #667085;
+
+  font-size: 14px;
+
+  line-height: 1.5;
+}
+
+
+.member-detail strong,
+.member-skills strong {
+  color: #344054;
+}
+
+
+/* =========================================
+   CONNECT BUTTON
+========================================= */
+
+.connect-btn {
+  width: 100%;
+
+  margin-top: 20px;
+
+  padding: 13px;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  gap: 8px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: #2864e8;
+
+  color: #ffffff;
+
+  font-size: 15px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+
+.connect-btn:hover {
+  background: #1f54cc;
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================
+   LOADING
+========================================= */
+
+.alumni-loading {
+  min-height: 60vh;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  align-items: center;
+
+  color: #667085;
+}
+
+
+.loading-spinner {
+  width: 42px;
+  height: 42px;
+
+  border: 4px solid #e5e7eb;
+
+  border-top-color: #4f46e5;
+
+  border-radius: 50%;
+
+  animation:
+    alumni-spin 0.8s linear infinite;
+}
+
+
+@keyframes alumni-spin {
+
+  to {
+    transform: rotate(360deg);
+  }
+
+}
+
+
+/* =========================================
+   ERROR
+========================================= */
+
+.alumni-error {
+  max-width: 600px;
+
+  margin: 100px auto;
+
+  padding: 40px;
+
+  text-align: center;
+
+  background: #ffffff;
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 10px 30px rgba(
+      0,
+      0,
+      0,
+      0.08
+    );
+}
+
+
+.alumni-error h2 {
+  color: #b42318;
+}
+
+
+.alumni-error p {
+  color: #667085;
+}
+
+
+.alumni-error button {
+  margin-top: 15px;
+
+  padding: 11px 22px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  background: #2864e8;
+
+  color: white;
+
+  cursor: pointer;
+}
+
+
+/* =========================================
+   EMPTY
+========================================= */
+
+.empty-users {
+  padding: 70px 20px;
+
+  text-align: center;
+
+  background: #ffffff;
+
+  border-radius: 18px;
+}
+
+
+.empty-icon {
+  width: 70px;
+  height: 70px;
+
+  margin: 0 auto 18px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #eef2ff;
+
+  color: #4f46e5;
+
+  font-size: 28px;
+}
+
+
+.empty-users h2 {
+  margin-bottom: 8px;
+
+  color: #172033;
+}
+
+
+.empty-users p {
+  color: #667085;
+}
+
+
+.empty-users button {
+  margin-top: 15px;
+
+  padding: 11px 22px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  background: #2864e8;
+
+  color: white;
+
+  cursor: pointer;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 768px) {
+
+  .alumni-page {
+    padding: 20px;
+  }
+
+
+  .alumni-hero {
+    padding: 30px;
+  }
+
+
+  .alumni-hero h1 {
+    font-size: 30px;
+  }
+
+
+  .alumni-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
