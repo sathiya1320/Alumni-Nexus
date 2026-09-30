@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Jobs.css";
 
-const API = "http://localhost:5000/api";
+const API = "https://alumni-nexus-cklf.onrender.com/api";
 
 function Jobs() {
   const navigate = useNavigate();

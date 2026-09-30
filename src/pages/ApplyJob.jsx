@@ -6,7 +6,7 @@ import {
 
 import "./ApplyJob.css";
 
-const API = "http://localhost:5000/api";
+const API = "https://alumni-nexus-cklf.onrender.com/api";
 
 function ApplyJob() {
   const { id } = useParams();

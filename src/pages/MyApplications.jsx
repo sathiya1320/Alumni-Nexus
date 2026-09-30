@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "./MyApplications.css";
 
 const API =
-  "http://localhost:5000/api";
+  "https://alumni-nexus-cklf.onrender.com/api";
 
 function MyApplications() {
   const navigate = useNavigate();

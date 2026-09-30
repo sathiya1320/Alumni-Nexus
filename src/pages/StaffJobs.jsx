@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import "./StaffJobs.css";
 
-const API = "http://localhost:5000/api";
+const API  = "https://alumni-nexus-cklf.onrender.com/api";
 
 function StaffJobs() {
   const navigate = useNavigate();

@@ -5,8 +5,7 @@ import {
 } from "react-router-dom";
 
 import "./ApplicantProfile.css";
-
-const API = "http://localhost:5000/api";
+const API = "https://alumni-nexus-cklf.onrender.com/api";
 
 
 function ApplicantProfile() {

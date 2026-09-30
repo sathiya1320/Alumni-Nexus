@@ -6,7 +6,7 @@ import {
 
 import "./ApplicantDetails.css";
 
-const API = "http://localhost:5000/api";
+const API = "https://alumni-nexus-cklf.onrender.com/api";
 
 function ApplicantDetails() {
   const { applicationId } = useParams();
@@ -258,7 +258,7 @@ function ApplicantDetails() {
       return url;
     }
 
-    return `http://localhost:5000${
+    return `https://alumni-nexus-cklf.onrender.com${
       url.startsWith("/")
         ? url
         : `/${url}`
