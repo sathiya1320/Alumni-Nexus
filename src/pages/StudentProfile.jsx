@@ -4,9 +4,21 @@ import API from "../services/api";
 import "./StudentProfile.css";
 
 function StudentProfile() {
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user")) || {}
-  );
+const [user, setUser] = useState(() => {
+  try {
+    const savedUser = localStorage.getItem("user");
+
+    if (!savedUser || savedUser === "undefined") {
+      return {};
+    }
+
+    return JSON.parse(savedUser);
+  } catch (error) {
+    console.error("Invalid user data in localStorage:", error);
+    localStorage.removeItem("user");
+    return {};
+  }
+});
 
   const [profile, setProfile] = useState({
     name: "",
