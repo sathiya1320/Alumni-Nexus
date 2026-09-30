@@ -1,24 +1,31 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import API from "../services/api";
 import "./StudentProfile.css";
 
 function StudentProfile() {
-const [user, setUser] = useState(() => {
-  try {
-    const savedUser = localStorage.getItem("user");
+  const navigate = useNavigate();
 
-    if (!savedUser || savedUser === "undefined") {
+  const [user, setUser] = useState(() => {
+    try {
+      const savedUser = localStorage.getItem("user");
+
+      if (!savedUser || savedUser === "undefined") {
+        return {};
+      }
+
+      return JSON.parse(savedUser);
+    } catch (error) {
+      console.error(
+        "Invalid user data in localStorage:",
+        error
+      );
+
+      localStorage.removeItem("user");
+
       return {};
     }
-
-    return JSON.parse(savedUser);
-  } catch (error) {
-    console.error("Invalid user data in localStorage:", error);
-    localStorage.removeItem("user");
-    return {};
-  }
-});
+  });
 
   const [profile, setProfile] = useState({
     name: "",
@@ -54,11 +61,14 @@ const [user, setUser] = useState(() => {
         return;
       }
 
-      const response = await API.get("/users/profile", {
-        headers: {
-          Authorization: "Bearer " + token
+      const response = await API.get(
+        "/users/profile",
+        {
+          headers: {
+            Authorization: "Bearer " + token
+          }
         }
-      });
+      );
 
       const latestUser = response.data.user;
 
@@ -83,7 +93,8 @@ const [user, setUser] = useState(() => {
         careerInterest:
           latestUser.careerInterest || "",
 
-        about: latestUser.about || "",
+        about:
+          latestUser.about || "",
 
         linkedinUrl:
           latestUser.linkedinUrl || "",
@@ -258,7 +269,10 @@ const [user, setUser] = useState(() => {
 
       const formData = new FormData();
 
-      formData.append("resume", resumeFile);
+      formData.append(
+        "resume",
+        resumeFile
+      );
 
       const response = await API.post(
         "/jobs/profile/resume",
@@ -272,26 +286,40 @@ const [user, setUser] = useState(() => {
 
       const updatedUser = response.data.user;
 
-      setUser(updatedUser);
+      if (updatedUser) {
+        setUser(updatedUser);
 
-      localStorage.setItem(
-        "user",
-        JSON.stringify(updatedUser)
-      );
+        localStorage.setItem(
+          "user",
+          JSON.stringify(updatedUser)
+        );
 
-      setProfile((prev) => ({
-        ...prev,
+        setProfile((prev) => ({
+          ...prev,
 
-        resumeUrl:
-          updatedUser.resumeUrl || "",
+          resumeUrl:
+            updatedUser.resumeUrl || "",
 
-        resumeName:
-          updatedUser.resumeName || ""
-      }));
+          resumeName:
+            updatedUser.resumeName || ""
+        }));
+      } else if (response.data.resume) {
+        setProfile((prev) => ({
+          ...prev,
+
+          resumeUrl:
+            response.data.resume.url || "",
+
+          resumeName:
+            response.data.resume.name || ""
+        }));
+      }
 
       setResumeFile(null);
 
-      alert("Resume uploaded successfully!");
+      alert(
+        "Resume uploaded successfully!"
+      );
     } catch (error) {
       console.error(
         "RESUME UPLOAD ERROR:",
@@ -386,7 +414,7 @@ const [user, setUser] = useState(() => {
     localStorage.removeItem("user");
     localStorage.removeItem("role");
 
-    window.location.href = "/login";
+    navigate("/login");
   };
 
   return (
@@ -561,7 +589,8 @@ const [user, setUser] = useState(() => {
               ) : (
 
                 <div className="profile-value">
-                  {profile.name || "Not updated"}
+                  {profile.name ||
+                    "Not updated"}
                 </div>
 
               )}
@@ -575,7 +604,8 @@ const [user, setUser] = useState(() => {
               </label>
 
               <div className="profile-value disabled-field">
-                {profile.email || "Not updated"}
+                {profile.email ||
+                  "Not updated"}
               </div>
 
             </div>
