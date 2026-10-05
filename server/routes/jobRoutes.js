@@ -18,13 +18,15 @@ const {
   getJobApplicationById,
 } = require("../controllers/jobController");
 
-const { protect } = require("../middleware/authMiddleware");
+const {
+  protect,
+} = require("../middleware/authMiddleware");
 
 const uploadResumeMiddleware =
   require("../middleware/uploadResume");
 
 // =====================================================
-// GET PUBLISHED JOBS
+// GET ALL PUBLISHED JOBS
 // =====================================================
 
 router.get(
@@ -65,7 +67,10 @@ router.get(
 );
 
 // =====================================================
-// STAFF - ALL JOBS
+// JOB MANAGEMENT
+//
+// STAFF  -> ALL JOBS
+// ALUMNI -> OWN JOBS
 // =====================================================
 
 router.get(
@@ -75,7 +80,9 @@ router.get(
 );
 
 // =====================================================
-// STAFF - CREATE JOB
+// CREATE JOB
+//
+// STAFF + ALUMNI
 // =====================================================
 
 router.post(
@@ -85,8 +92,9 @@ router.post(
 );
 
 // =====================================================
-// STAFF - SINGLE APPLICATION
-// IMPORTANT: BEFORE /:id
+// SINGLE APPLICATION
+//
+// STAFF + JOB OWNER ALUMNI
 // =====================================================
 
 router.get(
@@ -96,7 +104,9 @@ router.get(
 );
 
 // =====================================================
-// STAFF - APPLICATIONS FOR A JOB
+// JOB APPLICATIONS
+//
+// STAFF + JOB OWNER ALUMNI
 // =====================================================
 
 router.get(
@@ -106,7 +116,9 @@ router.get(
 );
 
 // =====================================================
-// STUDENT / ALUMNI - APPLY
+// APPLY JOB
+//
+// STUDENT + ALUMNI
 // =====================================================
 
 router.post(
@@ -116,7 +128,9 @@ router.post(
 );
 
 // =====================================================
-// STAFF - UPDATE APPLICATION STATUS
+// UPDATE APPLICATION STATUS
+//
+// STAFF + JOB OWNER ALUMNI
 // =====================================================
 
 router.put(
@@ -126,7 +140,9 @@ router.put(
 );
 
 // =====================================================
-// STAFF - UPDATE JOB
+// UPDATE JOB
+//
+// STAFF + JOB OWNER ALUMNI
 // =====================================================
 
 router.put(
@@ -136,7 +152,9 @@ router.put(
 );
 
 // =====================================================
-// STAFF - DELETE JOB
+// DELETE JOB
+//
+// STAFF + JOB OWNER ALUMNI
 // =====================================================
 
 router.delete(
@@ -147,7 +165,6 @@ router.delete(
 
 // =====================================================
 // GET SINGLE JOB
-// KEEP LAST
 // =====================================================
 
 router.get(

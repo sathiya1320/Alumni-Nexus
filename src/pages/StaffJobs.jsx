@@ -3,35 +3,39 @@ import { useNavigate } from "react-router-dom";
 
 import "./StaffJobs.css";
 
-const API  = "https://alumni-nexus-cklf.onrender.com/api";
+const API = "https://alumni-nexus-cklf.onrender.com/api";
 
 function StaffJobs() {
   const navigate = useNavigate();
 
   // =====================================================
-  // TOKEN
+  // USER
   // =====================================================
 
   const getToken = () => {
     return localStorage.getItem("token");
   };
 
+  const storedUser = localStorage.getItem("user");
+
+  const user = storedUser ? JSON.parse(storedUser) : null;
+
+  const role = user?.role;
+
+  const isStaff = role === "staff";
+  const isAlumni = role === "alumni";
+
   // =====================================================
   // STATES
   // =====================================================
 
   const [jobs, setJobs] = useState([]);
-
   const [showForm, setShowForm] = useState(false);
-
   const [editingId, setEditingId] = useState(null);
-
   const [selectedJob, setSelectedJob] = useState(null);
-
   const [applications, setApplications] = useState([]);
 
   const [loading, setLoading] = useState(false);
-
   const [saving, setSaving] = useState(false);
 
   // =====================================================
@@ -80,12 +84,24 @@ function StaffJobs() {
   };
 
   // =====================================================
-  // FETCH JOBS
+  // INITIAL CHECK
   // =====================================================
 
   useEffect(() => {
+    if (!isStaff && !isAlumni) {
+      alert("Only staff and alumni can manage jobs.");
+
+      navigate("/jobs");
+
+      return;
+    }
+
     fetchJobs();
   }, []);
+
+  // =====================================================
+  // FETCH JOBS
+  // =====================================================
 
   const fetchJobs = async () => {
     try {
@@ -95,18 +111,16 @@ function StaffJobs() {
 
       if (!token) {
         alert("Please login again.");
+        navigate("/login");
         return;
       }
 
-      const response = await fetch(
-        `${API}/jobs/staff/all`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await fetch(`${API}/jobs/staff/all`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       const data = await readResponse(response);
 
@@ -127,10 +141,7 @@ function StaffJobs() {
     } catch (error) {
       console.error("FETCH JOBS ERROR:", error);
 
-      alert(
-        error.message ||
-          "Unable to load jobs"
-      );
+      alert(error.message || "Unable to load jobs");
     } finally {
       setLoading(false);
     }
@@ -141,10 +152,7 @@ function StaffJobs() {
   // =====================================================
 
   const handleChange = (e) => {
-    const {
-      name,
-      value,
-    } = e.target;
+    const { name, value } = e.target;
 
     setForm((previousForm) => ({
       ...previousForm,
@@ -170,22 +178,17 @@ function StaffJobs() {
 
       if (!token) {
         alert("Please login again.");
+        navigate("/login");
         return;
       }
 
       const jobData = {
         title: form.title.trim(),
-
         company: form.company.trim(),
-
         jobType: form.jobType,
-
         workMode: form.workMode,
-
         location: form.location.trim(),
-
         experience: form.experience,
-
         salary: form.salary.trim(),
 
         skills: form.skills
@@ -193,20 +196,11 @@ function StaffJobs() {
           .map((skill) => skill.trim())
           .filter(Boolean),
 
-        description:
-          form.description.trim(),
-
-        requirements:
-          form.requirements.trim(),
-
-        responsibilities:
-          form.responsibilities.trim(),
-
+        description: form.description.trim(),
+        requirements: form.requirements.trim(),
+        responsibilities: form.responsibilities.trim(),
         deadline: form.deadline,
-
-        applicationLink:
-          form.applicationLink.trim(),
-
+        applicationLink: form.applicationLink.trim(),
         status: form.status,
       };
 
@@ -217,9 +211,7 @@ function StaffJobs() {
         !jobData.description ||
         !jobData.deadline
       ) {
-        alert(
-          "Please fill all required fields."
-        );
+        alert("Please fill all required fields.");
         return;
       }
 
@@ -227,29 +219,20 @@ function StaffJobs() {
         ? `${API}/jobs/${editingId}`
         : `${API}/jobs`;
 
-      const method = editingId
-        ? "PUT"
-        : "POST";
+      const method = editingId ? "PUT" : "POST";
 
-      const response = await fetch(
-        url,
-        {
-          method,
+      const response = await fetch(url, {
+        method,
 
-          headers: {
-            "Content-Type":
-              "application/json",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
 
-            Authorization:
-              `Bearer ${token}`,
-          },
+        body: JSON.stringify(jobData),
+      });
 
-          body: JSON.stringify(jobData),
-        }
-      );
-
-      const data =
-        await readResponse(response);
+      const data = await readResponse(response);
 
       if (!response.ok) {
         throw new Error(
@@ -265,22 +248,14 @@ function StaffJobs() {
       );
 
       setForm(emptyForm);
-
       setEditingId(null);
-
       setShowForm(false);
 
       await fetchJobs();
     } catch (error) {
-      console.error(
-        "SAVE JOB ERROR:",
-        error
-      );
+      console.error("SAVE JOB ERROR:", error);
 
-      alert(
-        error.message ||
-          "Unable to save job"
-      );
+      alert(error.message || "Unable to save job");
     } finally {
       setSaving(false);
     }
@@ -295,54 +270,35 @@ function StaffJobs() {
 
     setForm({
       title: job.title || "",
-
       company: job.company || "",
 
-      jobType:
-        job.jobType ||
-        "Full Time",
+      jobType: job.jobType || "Full Time",
 
-      workMode:
-        job.workMode ||
-        "Hybrid",
+      workMode: job.workMode || "Hybrid",
 
-      location:
-        job.location || "",
+      location: job.location || "",
 
-      experience:
-        job.experience ||
-        "Fresher",
+      experience: job.experience || "Fresher",
 
-      salary:
-        job.salary || "",
+      salary: job.salary || "",
 
-      skills:
-        Array.isArray(job.skills)
-          ? job.skills.join(", ")
-          : job.skills || "",
+      skills: Array.isArray(job.skills)
+        ? job.skills.join(", ")
+        : job.skills || "",
 
-      description:
-        job.description || "",
+      description: job.description || "",
 
-      requirements:
-        job.requirements || "",
+      requirements: job.requirements || "",
 
-      responsibilities:
-        job.responsibilities || "",
+      responsibilities: job.responsibilities || "",
 
       deadline: job.deadline
-        ? String(job.deadline).substring(
-            0,
-            10
-          )
+        ? String(job.deadline).substring(0, 10)
         : "",
 
-      applicationLink:
-        job.applicationLink || "",
+      applicationLink: job.applicationLink || "",
 
-      status:
-        job.status ||
-        "Published",
+      status: job.status || "Published",
     });
 
     setShowForm(true);
@@ -358,10 +314,9 @@ function StaffJobs() {
   // =====================================================
 
   const deleteJob = async (id) => {
-    const confirmDelete =
-      window.confirm(
-        "Are you sure you want to delete this job?"
-      );
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this job?"
+    );
 
     if (!confirmDelete) {
       return;
@@ -372,23 +327,19 @@ function StaffJobs() {
 
       if (!token) {
         alert("Please login again.");
+        navigate("/login");
         return;
       }
 
-      const response = await fetch(
-        `${API}/jobs/${id}`,
-        {
-          method: "DELETE",
+      const response = await fetch(`${API}/jobs/${id}`, {
+        method: "DELETE",
 
-          headers: {
-            Authorization:
-              `Bearer ${token}`,
-          },
-        }
-      );
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-      const data =
-        await readResponse(response);
+      const data = await readResponse(response);
 
       if (!response.ok) {
         throw new Error(
@@ -397,28 +348,18 @@ function StaffJobs() {
         );
       }
 
-      alert(
-        "Job deleted successfully"
-      );
+      alert("Job deleted successfully");
 
-      if (
-        selectedJob?._id === id
-      ) {
+      if (selectedJob?._id === id) {
         setSelectedJob(null);
         setApplications([]);
       }
 
       await fetchJobs();
     } catch (error) {
-      console.error(
-        "DELETE JOB ERROR:",
-        error
-      );
+      console.error("DELETE JOB ERROR:", error);
 
-      alert(
-        error.message ||
-          "Unable to delete job"
-      );
+      alert(error.message || "Unable to delete job");
     }
   };
 
@@ -426,14 +367,13 @@ function StaffJobs() {
   // VIEW APPLICATIONS
   // =====================================================
 
-  const viewApplications = async (
-    job
-  ) => {
+  const viewApplications = async (job) => {
     try {
       const token = getToken();
 
       if (!token) {
         alert("Please login again.");
+        navigate("/login");
         return;
       }
 
@@ -443,14 +383,12 @@ function StaffJobs() {
           method: "GET",
 
           headers: {
-            Authorization:
-              `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
 
-      const data =
-        await readResponse(response);
+      const data = await readResponse(response);
 
       if (!response.ok) {
         throw new Error(
@@ -459,26 +397,20 @@ function StaffJobs() {
         );
       }
 
-      const applicationList =
-        Array.isArray(data)
-          ? data
-          : Array.isArray(
-              data?.applications
-            )
-          ? data.applications
-          : [];
+      const applicationList = Array.isArray(data)
+        ? data
+        : Array.isArray(data?.applications)
+        ? data.applications
+        : [];
 
-      setApplications(
-        applicationList
-      );
+      setApplications(applicationList);
 
       setSelectedJob(job);
 
       setTimeout(() => {
-        const panel =
-          document.querySelector(
-            ".applications-panel"
-          );
+        const panel = document.querySelector(
+          ".applications-panel"
+        );
 
         if (panel) {
           panel.scrollIntoView({
@@ -513,6 +445,7 @@ function StaffJobs() {
 
       if (!token) {
         alert("Please login again.");
+        navigate("/login");
         return;
       }
 
@@ -522,11 +455,9 @@ function StaffJobs() {
           method: "PUT",
 
           headers: {
-            "Content-Type":
-              "application/json",
+            "Content-Type": "application/json",
 
-            Authorization:
-              `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
 
           body: JSON.stringify({
@@ -535,8 +466,7 @@ function StaffJobs() {
         }
       );
 
-      const data =
-        await readResponse(response);
+      const data = await readResponse(response);
 
       if (!response.ok) {
         throw new Error(
@@ -545,14 +475,10 @@ function StaffJobs() {
         );
       }
 
-      alert(
-        "Application status updated"
-      );
+      alert("Application status updated");
 
       if (selectedJob) {
-        await viewApplications(
-          selectedJob
-        );
+        await viewApplications(selectedJob);
       }
     } catch (error) {
       console.error(
@@ -578,21 +504,12 @@ function StaffJobs() {
   };
 
   // =====================================================
-  // ⭐ VIEW APPLICANT DETAILS
+  // VIEW APPLICANT
   // =====================================================
 
-  const viewApplicant = (
-    applicationId
-  ) => {
-    console.log(
-      "VIEW APPLICANT ID:",
-      applicationId
-    );
-
+  const viewApplicant = (applicationId) => {
     if (!applicationId) {
-      alert(
-        "Applicant application ID is missing."
-      );
+      alert("Applicant application ID is missing.");
       return;
     }
 
@@ -602,32 +519,38 @@ function StaffJobs() {
   };
 
   // =====================================================
+  // PAGE TEXT
+  // =====================================================
+
+  const pageLabel = isStaff
+    ? "STAFF MANAGEMENT"
+    : "ALUMNI CAREER CENTER";
+
+  const pageTitle = isStaff
+    ? "Job Management"
+    : "My Job Posts";
+
+  const pageDescription = isStaff
+    ? "Create and manage career opportunities for students and alumni."
+    : "Post and manage career opportunities shared with the Alumni Nexus community.";
+
+  // =====================================================
   // UI
   // =====================================================
 
   return (
     <div className="staff-jobs-page">
 
-      {/* =================================================
-          HEADER
-      ================================================= */}
+      {/* HEADER */}
 
       <div className="staff-jobs-header">
 
         <div>
-          <p>
-            STAFF MANAGEMENT
-          </p>
+          <p>{pageLabel}</p>
 
-          <h1>
-            Job Management
-          </h1>
+          <h1>{pageTitle}</h1>
 
-          <span>
-            Create and manage career
-            opportunities for students
-            and alumni.
-          </span>
+          <span>{pageDescription}</span>
         </div>
 
         <button
@@ -648,10 +571,7 @@ function StaffJobs() {
 
       </div>
 
-
-      {/* =================================================
-          FORM
-      ================================================= */}
+      {/* FORM */}
 
       {showForm && (
         <form
@@ -676,7 +596,6 @@ function StaffJobs() {
 
           </div>
 
-
           <div className="form-grid">
 
             <input
@@ -700,21 +619,10 @@ function StaffJobs() {
               value={form.jobType}
               onChange={handleChange}
             >
-              <option>
-                Full Time
-              </option>
-
-              <option>
-                Part Time
-              </option>
-
-              <option>
-                Internship
-              </option>
-
-              <option>
-                Contract
-              </option>
+              <option>Full Time</option>
+              <option>Part Time</option>
+              <option>Internship</option>
+              <option>Contract</option>
             </select>
 
             <select
@@ -722,17 +630,9 @@ function StaffJobs() {
               value={form.workMode}
               onChange={handleChange}
             >
-              <option>
-                On-site
-              </option>
-
-              <option>
-                Remote
-              </option>
-
-              <option>
-                Hybrid
-              </option>
+              <option>On-site</option>
+              <option>Remote</option>
+              <option>Hybrid</option>
             </select>
 
             <input
@@ -748,21 +648,10 @@ function StaffJobs() {
               value={form.experience}
               onChange={handleChange}
             >
-              <option>
-                Fresher
-              </option>
-
-              <option>
-                0–1 Years
-              </option>
-
-              <option>
-                1–3 Years
-              </option>
-
-              <option>
-                3+ Years
-              </option>
+              <option>Fresher</option>
+              <option>0–1 Years</option>
+              <option>1–3 Years</option>
+              <option>3+ Years</option>
             </select>
 
             <input
@@ -782,14 +671,12 @@ function StaffJobs() {
 
           </div>
 
-
           <input
             name="skills"
             placeholder="Skills - React, Node.js, MongoDB"
             value={form.skills}
             onChange={handleChange}
           />
-
 
           <textarea
             name="description"
@@ -799,14 +686,12 @@ function StaffJobs() {
             required
           />
 
-
           <textarea
             name="responsibilities"
             placeholder="Responsibilities"
             value={form.responsibilities}
             onChange={handleChange}
           />
-
 
           <textarea
             name="requirements"
@@ -815,7 +700,6 @@ function StaffJobs() {
             onChange={handleChange}
           />
 
-
           <input
             name="applicationLink"
             placeholder="Application Link (optional)"
@@ -823,25 +707,15 @@ function StaffJobs() {
             onChange={handleChange}
           />
 
-
           <select
             name="status"
             value={form.status}
             onChange={handleChange}
           >
-            <option>
-              Published
-            </option>
-
-            <option>
-              Draft
-            </option>
-
-            <option>
-              Closed
-            </option>
+            <option>Published</option>
+            <option>Draft</option>
+            <option>Closed</option>
           </select>
-
 
           <button
             className="publish-btn"
@@ -860,10 +734,7 @@ function StaffJobs() {
         </form>
       )}
 
-
-      {/* =================================================
-          JOB LIST
-      ================================================= */}
+      {/* JOB LIST */}
 
       <div className="staff-job-list">
 
@@ -876,7 +747,18 @@ function StaffJobs() {
         ) : jobs.length === 0 ? (
 
           <div className="staff-empty">
-            No jobs created yet.
+
+            <h3>
+              {isStaff
+                ? "No jobs created yet."
+                : "You have not posted any jobs yet."}
+            </h3>
+
+            <p>
+              Click "+ Add New Job"
+              to create a new opportunity.
+            </p>
+
           </div>
 
         ) : (
@@ -910,18 +792,19 @@ function StaffJobs() {
                   {job.workMode}
                 </p>
 
-              </div>
+                {!isStaff && (
+                  <small>
+                    Posted by you
+                  </small>
+                )}
 
+              </div>
 
               <div className="staff-job-actions">
 
                 <strong>
-                  👥{" "}
-                  {job.applicationCount ||
-                    0}{" "}
-                  Applications
+                  👥 {job.applicationCount || 0} Applications
                 </strong>
-
 
                 <button
                   type="button"
@@ -932,7 +815,6 @@ function StaffJobs() {
                   View Applicants
                 </button>
 
-
                 <button
                   type="button"
                   onClick={() =>
@@ -941,7 +823,6 @@ function StaffJobs() {
                 >
                   Edit
                 </button>
-
 
                 <button
                   type="button"
@@ -963,10 +844,7 @@ function StaffJobs() {
 
       </div>
 
-
-      {/* =================================================
-          APPLICATIONS PANEL
-      ================================================= */}
+      {/* APPLICATIONS */}
 
       {selectedJob && (
 
@@ -988,7 +866,6 @@ function StaffJobs() {
 
             </div>
 
-
             <button
               type="button"
               onClick={() => {
@@ -1001,7 +878,6 @@ function StaffJobs() {
 
           </div>
 
-
           {applications.length === 0 ? (
 
             <p>
@@ -1010,165 +886,117 @@ function StaffJobs() {
 
           ) : (
 
-            applications.map(
-              (application) => (
+            applications.map((application) => (
 
-                <div
-                  className="applicant-card"
-                  key={application._id}
-                >
+              <div
+                className="applicant-card"
+                key={application._id}
+              >
 
-                  {/* =================================
-                      APPLICANT
-                  ================================= */}
+                <div>
 
-                  <div>
+                  <h3>
+                    {application.applicant?.name ||
+                      "Unknown Applicant"}
+                  </h3>
 
-                    <h3>
-                      {
-                        application
-                          .applicant
-                          ?.name ||
-                        "Unknown Applicant"
-                      }
-                    </h3>
+                  <p>
+                    {application.applicant?.email ||
+                      "No email"}
+                  </p>
 
+                  <p>
+                    Role:{" "}
+                    {application.applicant?.role ||
+                      "Unknown"}
+                  </p>
 
-                    <p>
-                      {
-                        application
-                          .applicant
-                          ?.email ||
-                        "No email"
-                      }
-                    </p>
+                  <p>
+                    Cover Message:{" "}
+                    {application.coverMessage ||
+                      "No cover message"}
+                  </p>
 
-
-                    <p>
-                      Role:{" "}
-                      {
-                        application
-                          .applicant
-                          ?.role ||
-                        "Unknown"
-                      }
-                    </p>
-
-
-                    <p>
-                      Cover Message:{" "}
-                      {
-                        application
-                          .coverMessage ||
-                        "No cover message"
-                      }
-                    </p>
-
-
-                    {/* ⭐ IMPORTANT BUTTON */}
-
-                    <button
-                      type="button"
-                      className="view-applicant-btn"
-                      onClick={() =>
-                        viewApplicant(
-                          application._id
-                        )
-                      }
-                    >
-                      👤 View Applicant
-                    </button>
-
-                  </div>
-
-
-                  {/* =================================
-                      LINKS
-                  ================================= */}
-
-                  <div className="applicant-links">
-
-                    {application.linkedinUrl && (
-                      <a
-                        href={
-                          application.linkedinUrl
-                        }
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        🔗 LinkedIn
-                      </a>
-                    )}
-
-
-                    {application.resumeUrl && (
-                      <a
-                        href={
-                          application.resumeUrl
-                        }
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        📄 Resume
-                      </a>
-                    )}
-
-                  </div>
-
-
-                  {/* =================================
-                      STATUS
-                  ================================= */}
-
-                  <div className="status-actions">
-
-                    <span>
-                      {
-                        application.status
-                      }
-                    </span>
-
-
-                    <select
-                      value={
-                        application.status
-                      }
-                      onChange={(e) =>
-                        updateStatus(
-                          application._id,
-                          e.target.value
-                        )
-                      }
-                    >
-
-                      <option>
-                        Applied
-                      </option>
-
-                      <option>
-                        Under Review
-                      </option>
-
-                      <option>
-                        Shortlisted
-                      </option>
-
-                      <option>
-                        Selected
-                      </option>
-
-                      <option>
-                        Rejected
-                      </option>
-
-                    </select>
-
-                  </div>
+                  <button
+                    type="button"
+                    className="view-applicant-btn"
+                    onClick={() =>
+                      viewApplicant(
+                        application._id
+                      )
+                    }
+                  >
+                    👤 View Applicant
+                  </button>
 
                 </div>
 
-              )
-            )
+                <div className="applicant-links">
+
+                  {application.linkedinUrl && (
+                    <a
+                      href={application.linkedinUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      🔗 LinkedIn
+                    </a>
+                  )}
+
+                  {application.resumeUrl && (
+                    <a
+                      href={application.resumeUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      📄 Resume
+                    </a>
+                  )}
+
+                </div>
+
+                <div className="status-actions">
+
+                  <span>
+                    {application.status}
+                  </span>
+
+                  <select
+                    value={application.status}
+                    onChange={(e) =>
+                      updateStatus(
+                        application._id,
+                        e.target.value
+                      )
+                    }
+                  >
+                    <option>
+                      Applied
+                    </option>
+
+                    <option>
+                      Under Review
+                    </option>
+
+                    <option>
+                      Shortlisted
+                    </option>
+
+                    <option>
+                      Selected
+                    </option>
+
+                    <option>
+                      Rejected
+                    </option>
+
+                  </select>
+
+                </div>
+
+              </div>
+
+            ))
 
           )}
 

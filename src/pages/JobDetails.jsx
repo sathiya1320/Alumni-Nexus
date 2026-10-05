@@ -10,9 +10,11 @@ const API =
   "https://alumni-nexus-cklf.onrender.com/api";
 
 function JobDetails() {
-  const { id } = useParams();
+  const { id } =
+    useParams();
 
-  const navigate = useNavigate();
+  const navigate =
+    useNavigate();
 
   const [job, setJob] =
     useState(null);
@@ -30,7 +32,12 @@ function JobDetails() {
     ? JSON.parse(userData)
     : null;
 
-  const role = user?.role;
+  const role =
+    user?.role;
+
+  // =====================================================
+  // FETCH JOB
+  // =====================================================
 
   useEffect(() => {
     fetchJob();
@@ -61,11 +68,17 @@ function JobDetails() {
 
       setJob(data);
     } catch (error) {
-      alert(error.message);
+      alert(
+        error.message
+      );
     } finally {
       setLoading(false);
     }
   };
+
+  // =====================================================
+  // LOADING
+  // =====================================================
 
   if (loading) {
     return (
@@ -75,20 +88,28 @@ function JobDetails() {
     );
   }
 
+  // =====================================================
+  // NOT FOUND
+  // =====================================================
+
   if (!job) {
     return (
       <div className="job-details-page">
-        <h2>Job not found</h2>
+        <h2>
+          Job not found
+        </h2>
       </div>
     );
   }
 
+  // =====================================================
+  // UI
+  // =====================================================
+
   return (
     <div className="job-details-page">
 
-      {/* =========================================
-          BACK BUTTON
-      ========================================== */}
+      {/* BACK */}
 
       <button
         className="back-btn"
@@ -102,18 +123,20 @@ function JobDetails() {
 
       <div className="job-details-layout">
 
-        {/* =========================================
-            MAIN JOB DETAILS
-        ========================================== */}
+        {/* =================================================
+            MAIN
+        ================================================= */}
 
         <main className="job-main">
 
           <div className="job-title-box">
 
             <div className="large-company-logo">
+
               {job.company
                 ?.charAt(0)
                 .toUpperCase()}
+
             </div>
 
             <div>
@@ -135,36 +158,36 @@ function JobDetails() {
           </div>
 
 
-          {/* =========================================
-              JOB INFO
-          ========================================== */}
+          {/* INFO */}
 
           <div className="details-info">
 
             <span>
-              📍 {job.location}
+              📍{" "}
+              {job.location}
             </span>
 
             <span>
-              🏠 {job.workMode}
+              🏠{" "}
+              {job.workMode}
             </span>
 
             <span>
-              💼 {job.experience}
+              💼{" "}
+              {job.experience}
             </span>
 
             {job.salary && (
               <span>
-                💰 {job.salary}
+                💰{" "}
+                {job.salary}
               </span>
             )}
 
           </div>
 
 
-          {/* =========================================
-              ABOUT
-          ========================================== */}
+          {/* ABOUT */}
 
           <section>
 
@@ -179,9 +202,7 @@ function JobDetails() {
           </section>
 
 
-          {/* =========================================
-              RESPONSIBILITIES
-          ========================================== */}
+          {/* RESPONSIBILITIES */}
 
           <section>
 
@@ -197,9 +218,7 @@ function JobDetails() {
           </section>
 
 
-          {/* =========================================
-              REQUIREMENTS
-          ========================================== */}
+          {/* REQUIREMENTS */}
 
           <section>
 
@@ -215,9 +234,7 @@ function JobDetails() {
           </section>
 
 
-          {/* =========================================
-              SKILLS
-          ========================================== */}
+          {/* SKILLS */}
 
           <section>
 
@@ -228,12 +245,17 @@ function JobDetails() {
             <div className="details-skills">
 
               {job.skills?.map(
-                (skill, index) => (
+                (
+                  skill,
+                  index
+                ) => (
+
                   <span
                     key={index}
                   >
                     {skill}
                   </span>
+
                 )
               )}
 
@@ -244,17 +266,16 @@ function JobDetails() {
         </main>
 
 
-        {/* =========================================
-            RIGHT SIDE
-        ========================================== */}
+        {/* =================================================
+            RIGHT CARD
+        ================================================= */}
 
         <aside className="job-apply-card">
 
-          {/* =====================================
-              STAFF VIEW
-          ===================================== */}
+          {/* STAFF */}
 
-          {role === "staff" ? (
+          {role ===
+          "staff" ? (
 
             <>
 
@@ -263,10 +284,10 @@ function JobDetails() {
               </h2>
 
               <p>
-                Staff members cannot apply
+                Staff members
+                cannot apply
                 for jobs.
               </p>
-
 
               <div className="deadline-box">
 
@@ -284,23 +305,34 @@ function JobDetails() {
 
               </div>
 
+              <button
+                className="apply-btn"
+                onClick={() =>
+                  navigate(
+                    "/staff-jobs"
+                  )
+                }
+              >
+                Manage Jobs →
+              </button>
+
             </>
 
           ) : (
 
             <>
-              {/* =================================
-                  STUDENT / ALUMNI
-              ================================= */}
+              {/* STUDENT / ALUMNI */}
 
               <h2>
                 Ready to apply?
               </h2>
 
               <p>
-                Your resume and LinkedIn
-                profile will be included
-                with your application.
+                Your resume and
+                LinkedIn profile
+                will be included
+                with your
+                application.
               </p>
 
 
@@ -329,7 +361,9 @@ function JobDetails() {
 
                   <span>
                     Status:{" "}
-                    {job.applicationStatus}
+                    {
+                      job.applicationStatus
+                    }
                   </span>
 
                 </div>

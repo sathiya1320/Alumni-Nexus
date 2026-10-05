@@ -202,6 +202,12 @@ function StaffDashboard() {
 
           </Link>
 
+          <Link to="/staff-profile">
+
+            👤 My Profile
+            
+          </Link>
+
 
         </nav>
 

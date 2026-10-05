@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const User = require("../models/User");
 
-
 // ======================================================
 // GET ALL ALUMNI
 // ======================================================
@@ -60,21 +59,18 @@ const getAllAlumni = async (req, res) => {
       query.passingYear = year;
     }
 
-    const total =
-      await User.countDocuments(query);
+    const total = await User.countDocuments(query);
 
-    const alumni =
-      await User.find(query)
-        .select("-password")
-        .sort({
-          passingYear: -1,
-          name: 1,
-        })
-        .skip(skip)
-        .limit(limit);
+    const alumni = await User.find(query)
+      .select("-password")
+      .sort({
+        passingYear: -1,
+        name: 1,
+      })
+      .skip(skip)
+      .limit(limit);
 
-    const totalPages =
-      Math.ceil(total / limit);
+    const totalPages = Math.ceil(total / limit);
 
     res.status(200).json({
       success: true,
@@ -84,15 +80,12 @@ const getAllAlumni = async (req, res) => {
         totalPages,
         totalRecords: total,
         recordsPerPage: limit,
-        hasNextPage:
-          page < totalPages,
-        hasPreviousPage:
-          page > 1,
+        hasNextPage: page < totalPages,
+        hasPreviousPage: page > 1,
       },
     });
 
   } catch (error) {
-
     console.error(
       "GET ALL ALUMNI ERROR:",
       error
@@ -112,23 +105,19 @@ const getAllAlumni = async (req, res) => {
 
 const getUserById = async (req, res) => {
   try {
-
     const { id } = req.params;
 
-    if (
-      !mongoose.Types.ObjectId.isValid(id)
-    ) {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({
         success: false,
         message: "Invalid alumni ID",
       });
     }
 
-    const alumni =
-      await User.findOne({
-        _id: id,
-        role: "alumni",
-      }).select("-password");
+    const alumni = await User.findOne({
+      _id: id,
+      role: "alumni",
+    }).select("-password");
 
     if (!alumni) {
       return res.status(404).json({
@@ -143,7 +132,6 @@ const getUserById = async (req, res) => {
     });
 
   } catch (error) {
-
     console.error(
       "GET ALUMNI BY ID ERROR:",
       error
@@ -151,8 +139,7 @@ const getUserById = async (req, res) => {
 
     res.status(500).json({
       success: false,
-      message:
-        "Unable to fetch alumni details",
+      message: "Unable to fetch alumni details",
     });
   }
 };
@@ -165,7 +152,6 @@ const getUserById = async (req, res) => {
 
 const updateAlumni = async (req, res) => {
   try {
-
     if (
       !req.user ||
       req.user.role !== "staff"
@@ -179,20 +165,17 @@ const updateAlumni = async (req, res) => {
 
     const { id } = req.params;
 
-    if (
-      !mongoose.Types.ObjectId.isValid(id)
-    ) {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({
         success: false,
         message: "Invalid alumni ID",
       });
     }
 
-    const alumni =
-      await User.findOne({
-        _id: id,
-        role: "alumni",
-      });
+    const alumni = await User.findOne({
+      _id: id,
+      role: "alumni",
+    });
 
     if (!alumni) {
       return res.status(404).json({
@@ -245,21 +228,18 @@ const updateAlumni = async (req, res) => {
       });
     }
 
-    alumni.name =
-      alumni.name.trim();
+    alumni.name = alumni.name.trim();
 
-    alumni.email =
-      alumni.email
-        .toLowerCase()
-        .trim();
+    alumni.email = alumni.email
+      .toLowerCase()
+      .trim();
 
-    const existingUser =
-      await User.findOne({
-        email: alumni.email,
-        _id: {
-          $ne: alumni._id,
-        },
-      });
+    const existingUser = await User.findOne({
+      email: alumni.email,
+      _id: {
+        $ne: alumni._id,
+      },
+    });
 
     if (existingUser) {
       return res.status(400).json({
@@ -269,11 +249,9 @@ const updateAlumni = async (req, res) => {
       });
     }
 
-    const updatedAlumni =
-      await alumni.save();
+    const updatedAlumni = await alumni.save();
 
-    const userData =
-      updatedAlumni.toObject();
+    const userData = updatedAlumni.toObject();
 
     delete userData.password;
 
@@ -285,7 +263,6 @@ const updateAlumni = async (req, res) => {
     });
 
   } catch (error) {
-
     console.error(
       "UPDATE ALUMNI ERROR:",
       error
@@ -314,7 +291,6 @@ const updateAlumni = async (req, res) => {
 
 const deleteAlumni = async (req, res) => {
   try {
-
     if (
       !req.user ||
       req.user.role !== "staff"
@@ -328,20 +304,17 @@ const deleteAlumni = async (req, res) => {
 
     const { id } = req.params;
 
-    if (
-      !mongoose.Types.ObjectId.isValid(id)
-    ) {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({
         success: false,
         message: "Invalid alumni ID",
       });
     }
 
-    const alumni =
-      await User.findOneAndDelete({
-        _id: id,
-        role: "alumni",
-      });
+    const alumni = await User.findOneAndDelete({
+      _id: id,
+      role: "alumni",
+    });
 
     if (!alumni) {
       return res.status(404).json({
@@ -352,12 +325,10 @@ const deleteAlumni = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message:
-        "Alumni deleted successfully",
+      message: "Alumni deleted successfully",
     });
 
   } catch (error) {
-
     console.error(
       "DELETE ALUMNI ERROR:",
       error
@@ -365,8 +336,7 @@ const deleteAlumni = async (req, res) => {
 
     res.status(500).json({
       success: false,
-      message:
-        "Unable to delete alumni",
+      message: "Unable to delete alumni",
     });
   }
 };
@@ -376,20 +346,15 @@ const deleteAlumni = async (req, res) => {
 // GET ALL STUDENTS
 // ======================================================
 
-const getAllStudents = async (
-  req,
-  res
-) => {
+const getAllStudents = async (req, res) => {
   try {
-
-    const students =
-      await User.find({
-        role: "student",
-      })
-        .select("-password")
-        .sort({
-          name: 1,
-        });
+    const students = await User.find({
+      role: "student",
+    })
+      .select("-password")
+      .sort({
+        name: 1,
+      });
 
     res.status(200).json({
       success: true,
@@ -397,7 +362,6 @@ const getAllStudents = async (
     });
 
   } catch (error) {
-
     console.error(
       "GET STUDENTS ERROR:",
       error
@@ -405,8 +369,7 @@ const getAllStudents = async (
 
     res.status(500).json({
       success: false,
-      message:
-        "Unable to fetch students",
+      message: "Unable to fetch students",
     });
   }
 };
@@ -416,25 +379,20 @@ const getAllStudents = async (
 // GET NETWORK MEMBERS
 // ======================================================
 
-const getAllNetworkMembers = async (
-  req,
-  res
-) => {
+const getAllNetworkMembers = async (req, res) => {
   try {
-
-    const users =
-      await User.find({
-        role: {
-          $in: [
-            "student",
-            "alumni",
-          ],
-        },
-      })
-        .select("-password")
-        .sort({
-          name: 1,
-        });
+    const users = await User.find({
+      role: {
+        $in: [
+          "student",
+          "alumni",
+        ],
+      },
+    })
+      .select("-password")
+      .sort({
+        name: 1,
+      });
 
     res.status(200).json({
       success: true,
@@ -442,7 +400,6 @@ const getAllNetworkMembers = async (
     });
 
   } catch (error) {
-
     console.error(
       "GET NETWORK MEMBERS ERROR:",
       error
@@ -459,18 +416,14 @@ const getAllNetworkMembers = async (
 
 // ======================================================
 // GET MY PROFILE
+// STUDENT / ALUMNI / STAFF
 // ======================================================
 
-const getMyProfile = async (
-  req,
-  res
-) => {
+const getMyProfile = async (req, res) => {
   try {
-
-    const user =
-      await User.findById(
-        req.user._id
-      ).select("-password");
+    const user = await User.findById(
+      req.user._id
+    ).select("-password");
 
     if (!user) {
       return res.status(404).json({
@@ -485,7 +438,6 @@ const getMyProfile = async (
     });
 
   } catch (error) {
-
     console.error(
       "GET PROFILE ERROR:",
       error
@@ -505,16 +457,11 @@ const getMyProfile = async (
 // STUDENT / ALUMNI / STAFF
 // ======================================================
 
-const updateProfile = async (
-  req,
-  res
-) => {
+const updateProfile = async (req, res) => {
   try {
-
-    const user =
-      await User.findById(
-        req.user._id
-      );
+    const user = await User.findById(
+      req.user._id
+    );
 
     if (!user) {
       return res.status(404).json({
@@ -525,7 +472,7 @@ const updateProfile = async (
 
 
     // ==========================================
-    // COMMON FIELDS
+    // COMMON PROFILE FIELDS
     // ==========================================
 
     const commonFields = [
@@ -544,14 +491,9 @@ const updateProfile = async (
     ];
 
     commonFields.forEach((field) => {
-
-      if (
-        req.body[field] !== undefined
-      ) {
-        user[field] =
-          req.body[field];
+      if (req.body[field] !== undefined) {
+        user[field] = req.body[field];
       }
-
     });
 
 
@@ -563,21 +505,61 @@ const updateProfile = async (
       user.role === "student" ||
       user.role === "alumni"
     ) {
-
       if (
-        req.body.department !==
-        undefined
+        req.body.department !== undefined
       ) {
         user.department =
           req.body.department;
       }
 
       if (
-        req.body.passingYear !==
-        undefined
+        req.body.passingYear !== undefined
       ) {
         user.passingYear =
           req.body.passingYear;
+      }
+    }
+
+
+    // ==========================================
+    // STAFF PROFILE FIELDS
+    // ==========================================
+
+    if (user.role === "staff") {
+
+      if (
+        req.body.department !== undefined
+      ) {
+        user.department =
+          req.body.department;
+      }
+
+      if (
+        req.body.qualification !== undefined
+      ) {
+        user.qualification =
+          req.body.qualification;
+      }
+
+      if (
+        req.body.specialization !== undefined
+      ) {
+        user.specialization =
+          req.body.specialization;
+      }
+
+      if (
+        req.body.dateOfJoining !== undefined
+      ) {
+        user.dateOfJoining =
+          req.body.dateOfJoining;
+      }
+
+      if (
+        req.body.institution !== undefined
+      ) {
+        user.institution =
+          req.body.institution;
       }
 
     }
@@ -597,8 +579,7 @@ const updateProfile = async (
       });
     }
 
-    user.name =
-      user.name.trim();
+    user.name = user.name.trim();
 
 
     // ==========================================
@@ -606,22 +587,16 @@ const updateProfile = async (
     // ==========================================
 
     if (
-      typeof user.skills ===
-      "string"
+      typeof user.skills === "string"
     ) {
-
-      user.skills =
-        user.skills
-          .split(",")
-          .map(
-            (skill) =>
-              skill.trim()
-          )
-          .filter(
-            (skill) =>
-              skill.length > 0
-          );
-
+      user.skills = user.skills
+        .split(",")
+        .map(
+          (skill) => skill.trim()
+        )
+        .filter(
+          (skill) => skill.length > 0
+        );
     }
 
 
@@ -655,7 +630,6 @@ const updateProfile = async (
     });
 
   } catch (error) {
-
     console.error(
       "UPDATE PROFILE ERROR:",
       error

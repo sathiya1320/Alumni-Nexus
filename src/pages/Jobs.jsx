@@ -9,108 +9,120 @@ function Jobs() {
 
   const [jobs, setJobs] = useState([]);
   const [filteredJobs, setFilteredJobs] = useState([]);
-
   const [search, setSearch] = useState("");
   const [jobType, setJobType] = useState("All");
   const [workMode, setWorkMode] = useState("All");
-
   const [loading, setLoading] = useState(true);
 
   const token = localStorage.getItem("token");
 
-  const user = JSON.parse(
-    localStorage.getItem("user") || "null"
-  );
+  const userData = localStorage.getItem("user");
+
+  const user = userData ? JSON.parse(userData) : null;
+
+  // =====================================================
+  // FETCH JOBS
+  // =====================================================
 
   useEffect(() => {
     fetchJobs();
   }, []);
 
+  // =====================================================
+  // FILTER JOBS
+  // =====================================================
+
   useEffect(() => {
     filterJobs();
   }, [jobs, search, jobType, workMode]);
 
+  // =====================================================
+  // GET JOBS
+  // =====================================================
+
   const fetchJobs = async () => {
     try {
-      const response = await fetch(
-        `${API}/jobs`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      setLoading(true);
+
+      const response = await fetch(`${API}/jobs`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(
-          data.message || "Failed to fetch jobs"
-        );
+        throw new Error(data.message || "Failed to fetch jobs");
       }
 
-      setJobs(data);
+      setJobs(Array.isArray(data) ? data : []);
     } catch (error) {
-      console.error(error);
+      console.error("FETCH JOBS ERROR:", error);
     } finally {
       setLoading(false);
     }
   };
 
+  // =====================================================
+  // FILTER JOBS
+  // =====================================================
+
   const filterJobs = () => {
     let result = [...jobs];
 
+    // Search
     if (search.trim()) {
-      const keyword =
-        search.toLowerCase();
+      const keyword = search.toLowerCase();
 
       result = result.filter((job) => {
         return (
-          job.title
-            ?.toLowerCase()
-            .includes(keyword) ||
-          job.company
-            ?.toLowerCase()
-            .includes(keyword) ||
-          job.location
-            ?.toLowerCase()
-            .includes(keyword) ||
+          job.title?.toLowerCase().includes(keyword) ||
+          job.company?.toLowerCase().includes(keyword) ||
+          job.location?.toLowerCase().includes(keyword) ||
           job.skills?.some((skill) =>
-            skill
-              .toLowerCase()
-              .includes(keyword)
+            skill.toLowerCase().includes(keyword)
           )
         );
       });
     }
 
+    // Job Type
     if (jobType !== "All") {
       result = result.filter(
-        (job) =>
-          job.jobType === jobType
+        (job) => job.jobType === jobType
       );
     }
 
+    // Work Mode
     if (workMode !== "All") {
       result = result.filter(
-        (job) =>
-          job.workMode === workMode
+        (job) => job.workMode === workMode
       );
     }
 
     setFilteredJobs(result);
   };
 
+  // =====================================================
+  // DATE FORMAT
+  // =====================================================
+
   const formatDate = (date) => {
-    return new Date(date).toLocaleDateString(
-      "en-IN",
-      {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-      }
-    );
+    if (!date) {
+      return "-";
+    }
+
+    return new Date(date).toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
   };
+
+  // =====================================================
+  // LOADING
+  // =====================================================
 
   if (loading) {
     return (
@@ -120,10 +132,16 @@ function Jobs() {
     );
   }
 
+  // =====================================================
+  // UI
+  // =====================================================
+
   return (
     <div className="jobs-page">
 
-      {/* HEADER */}
+      {/* =================================================
+          HEADER
+      ================================================= */}
 
       <div className="jobs-header">
 
@@ -133,30 +151,34 @@ function Jobs() {
           </p>
 
           <h1>
-            Find Your Next
-            <span> Opportunity</span>
+            Find Your
+            <span> Next Opportunity</span>
           </h1>
 
           <p className="jobs-subtitle">
-            Explore career opportunities
-            shared by Alumni Nexus.
+            Explore career opportunities shared by
+            Alumni Nexus.
           </p>
         </div>
 
-        {user?.role === "staff" && (
+        {/* =================================================
+            STAFF + ALUMNI CAN POST JOB
+        ================================================= */}
+
+        {["staff", "alumni"].includes(user?.role) && (
           <button
             className="post-job-btn"
-            onClick={() =>
-              navigate("/staff-jobs")
-            }
+            onClick={() => navigate("/staff-jobs")}
           >
             + Post Job
           </button>
         )}
+
       </div>
 
-
-      {/* SEARCH */}
+      {/* =================================================
+          SEARCH
+      ================================================= */}
 
       <div className="jobs-search-box">
 
@@ -166,23 +188,20 @@ function Jobs() {
           type="text"
           placeholder="Search by job title, company or skill..."
           value={search}
-          onChange={(e) =>
-            setSearch(e.target.value)
-          }
+          onChange={(e) => setSearch(e.target.value)}
         />
 
       </div>
 
-
-      {/* FILTERS */}
+      {/* =================================================
+          FILTERS
+      ================================================= */}
 
       <div className="jobs-filters">
 
         <select
           value={jobType}
-          onChange={(e) =>
-            setJobType(e.target.value)
-          }
+          onChange={(e) => setJobType(e.target.value)}
         >
           <option value="All">
             All Job Types
@@ -205,12 +224,9 @@ function Jobs() {
           </option>
         </select>
 
-
         <select
           value={workMode}
-          onChange={(e) =>
-            setWorkMode(e.target.value)
-          }
+          onChange={(e) => setWorkMode(e.target.value)}
         >
           <option value="All">
             All Work Modes
@@ -229,28 +245,32 @@ function Jobs() {
           </option>
         </select>
 
+        {/* =================================================
+            STUDENT + ALUMNI
+        ================================================= */}
 
-        <button
-          className="applications-btn"
-          onClick={() =>
-            navigate("/my-applications")
-          }
-        >
-          📋 My Applications
-        </button>
+        {["student", "alumni"].includes(user?.role) && (
+          <button
+            className="applications-btn"
+            onClick={() => navigate("/my-applications")}
+          >
+            📋 My Applications
+          </button>
+        )}
 
       </div>
 
-
-      {/* JOB COUNT */}
+      {/* =================================================
+          JOB COUNT
+      ================================================= */}
 
       <div className="job-count">
-        {filteredJobs.length} opportunities
-        found
+        {filteredJobs.length} opportunities found
       </div>
 
-
-      {/* JOB LIST */}
+      {/* =================================================
+          JOB LIST
+      ================================================= */}
 
       {filteredJobs.length === 0 ? (
 
@@ -265,8 +285,7 @@ function Jobs() {
           </h2>
 
           <p>
-            New career opportunities
-            will appear here.
+            New career opportunities will appear here.
           </p>
 
         </div>
@@ -282,6 +301,10 @@ function Jobs() {
               key={job._id}
             >
 
+              {/* =================================================
+                  TOP
+              ================================================= */}
+
               <div className="job-card-top">
 
                 <div className="company-logo">
@@ -291,6 +314,7 @@ function Jobs() {
                 </div>
 
                 <div>
+
                   <span className="job-type">
                     {job.jobType}
                   </span>
@@ -302,10 +326,14 @@ function Jobs() {
                   <p className="company-name">
                     {job.company}
                   </p>
+
                 </div>
 
               </div>
 
+              {/* =================================================
+                  INFO
+              ================================================= */}
 
               <div className="job-info">
 
@@ -329,49 +357,57 @@ function Jobs() {
 
               </div>
 
+              {/* =================================================
+                  SKILLS
+              ================================================= */}
 
               <div className="job-skills">
 
                 {job.skills
                   ?.slice(0, 4)
                   .map((skill, index) => (
+
                     <span key={index}>
                       {skill}
                     </span>
+
                   ))}
 
               </div>
 
+              {/* =================================================
+                  DESCRIPTION
+              ================================================= */}
 
               <p className="job-description">
+
                 {job.description?.length > 120
-                  ? job.description.substring(
-                      0,
-                      120
-                    ) + "..."
+                  ? job.description.substring(0, 120) + "..."
                   : job.description}
+
               </p>
 
+              {/* =================================================
+                  FOOTER
+              ================================================= */}
 
               <div className="job-footer">
 
                 <div>
+
                   <small>
                     Apply before
                   </small>
 
                   <strong>
-                    {formatDate(
-                      job.deadline
-                    )}
+                    {formatDate(job.deadline)}
                   </strong>
+
                 </div>
 
                 <button
                   onClick={() =>
-                    navigate(
-                      `/job-details/${job._id}`
-                    )
+                    navigate(`/job-details/${job._id}`)
                   }
                 >
                   View Details →

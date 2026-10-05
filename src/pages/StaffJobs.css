@@ -9,6 +9,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 30px;
+  gap: 25px;
 }
 
 .staff-jobs-header p {
@@ -16,15 +17,18 @@
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 1.5px;
+  margin: 0 0 7px;
 }
 
 .staff-jobs-header h1 {
   color: #12244f;
   margin: 7px 0;
+  font-size: 34px;
 }
 
 .staff-jobs-header span {
   color: #667085;
+  font-size: 16px;
 }
 
 .staff-jobs-header > button {
@@ -35,7 +39,16 @@
   border-radius: 9px;
   cursor: pointer;
   font-weight: 700;
+  white-space: nowrap;
 }
+
+.staff-jobs-header > button:hover {
+  background: #2854c7;
+}
+
+/* =====================================================
+   FORM
+===================================================== */
 
 .job-form {
   background: white;
@@ -43,29 +56,32 @@
   border-radius: 17px;
   margin-bottom: 25px;
   border: 1px solid #e7ebf2;
+  box-shadow: 0 8px 25px rgba(16, 24, 40, 0.04);
 }
 
 .form-header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .form-header h2 {
   color: #12244f;
+  margin: 0;
 }
 
 .form-header button {
   border: none;
   background: none;
   cursor: pointer;
+  font-size: 18px;
+  color: #667085;
 }
 
 .form-grid {
   display: grid;
-  grid-template-columns: repeat(
-    2,
-    1fr
-  );
+  grid-template-columns: repeat(2, 1fr);
   gap: 14px;
 }
 
@@ -80,6 +96,15 @@
   margin-bottom: 14px;
   outline: none;
   font-family: inherit;
+  color: #12244f;
+  background: #fff;
+}
+
+.job-form input:focus,
+.job-form select:focus,
+.job-form textarea:focus {
+  border-color: #3564d9;
+  box-shadow: 0 0 0 3px rgba(53, 100, 217, 0.08);
 }
 
 .job-form textarea {
@@ -97,6 +122,19 @@
   font-weight: 700;
 }
 
+.publish-btn:hover {
+  background: #0f9f5c;
+}
+
+.publish-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* =====================================================
+   JOB LIST
+===================================================== */
+
 .staff-job-list {
   display: grid;
   gap: 15px;
@@ -110,28 +148,40 @@
   display: flex;
   justify-content: space-between;
   gap: 20px;
+  box-shadow: 0 5px 18px rgba(16, 24, 40, 0.03);
 }
 
 .staff-job-info > span {
+  display: inline-block;
   background: #eef4ff;
   color: #3564d9;
   padding: 5px 9px;
   border-radius: 20px;
   font-size: 12px;
+  font-weight: 600;
 }
 
 .staff-job-info h2 {
   color: #12244f;
-  margin-bottom: 4px;
+  margin: 10px 0 4px;
 }
 
 .staff-job-info h3 {
   color: #667085;
   font-weight: 500;
+  margin: 0 0 8px;
 }
 
 .staff-job-info p {
   color: #667085;
+  margin: 0;
+}
+
+.staff-job-info small {
+  display: inline-block;
+  margin-top: 8px;
+  color: #3564d9;
+  font-weight: 600;
 }
 
 .staff-job-actions {
@@ -153,11 +203,20 @@
   padding: 9px 12px;
   border-radius: 7px;
   cursor: pointer;
+  font-weight: 600;
+}
+
+.staff-job-actions button:hover {
+  background: #dfeaff;
 }
 
 .staff-job-actions .delete-btn {
   background: #fef3f2;
   color: #d92d20;
+}
+
+.staff-job-actions .delete-btn:hover {
+  background: #fee4e2;
 }
 
 .staff-empty {
@@ -167,6 +226,15 @@
   border-radius: 15px;
   color: #667085;
 }
+
+.staff-empty h3 {
+  color: #12244f;
+  margin-bottom: 8px;
+}
+
+/* =====================================================
+   APPLICATIONS
+===================================================== */
 
 .applications-panel {
   margin-top: 30px;
@@ -179,16 +247,26 @@
 .panel-header {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
 }
 
 .panel-header h2 {
   color: #12244f;
+  margin: 0 0 5px;
+}
+
+.panel-header p {
+  color: #667085;
+  margin: 0;
 }
 
 .panel-header button {
   border: none;
   background: none;
   cursor: pointer;
+  font-size: 18px;
+  color: #667085;
 }
 
 .applicant-card {
@@ -210,6 +288,21 @@
   margin: 5px 0;
 }
 
+.view-applicant-btn {
+  margin-top: 10px;
+  border: none;
+  background: #3564d9;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.view-applicant-btn:hover {
+  background: #2854c7;
+}
+
 .applicant-links {
   display: flex;
   flex-direction: column;
@@ -219,6 +312,11 @@
 .applicant-links a {
   color: #3564d9;
   text-decoration: none;
+  font-weight: 600;
+}
+
+.applicant-links a:hover {
+  text-decoration: underline;
 }
 
 .status-actions {
@@ -227,17 +325,34 @@
   gap: 8px;
 }
 
+.status-actions span {
+  color: #344054;
+  font-weight: 600;
+}
+
 .status-actions select {
   padding: 8px;
   border: 1px solid #dfe4ec;
   border-radius: 7px;
 }
 
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
 @media (max-width: 800px) {
+  .staff-jobs-page {
+    padding: 30px 5%;
+  }
+
   .staff-jobs-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 20px;
+  }
+
+  .staff-jobs-header h1 {
+    font-size: 28px;
   }
 
   .form-grid {

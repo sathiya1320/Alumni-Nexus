@@ -1,14 +1,12 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
-
 // =====================================================
 // USER SCHEMA
 // =====================================================
 
 const userSchema = new mongoose.Schema(
   {
-
     // ===================================================
     // BASIC INFORMATION
     // ===================================================
@@ -32,7 +30,6 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
 
-
     // ===================================================
     // ROLE
     // ===================================================
@@ -46,7 +43,6 @@ const userSchema = new mongoose.Schema(
       ],
       default: "student",
     },
-
 
     // ===================================================
     // ACADEMIC INFORMATION
@@ -64,6 +60,33 @@ const userSchema = new mongoose.Schema(
       trim: true,
     },
 
+    // ===================================================
+    // STAFF ACADEMIC / PROFESSIONAL INFORMATION
+    // ===================================================
+
+    qualification: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+
+    specialization: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+
+    dateOfJoining: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+
+    institution: {
+      type: String,
+      default: "",
+      trim: true,
+    },
 
     // ===================================================
     // PERSONAL INFORMATION
@@ -86,7 +109,6 @@ const userSchema = new mongoose.Schema(
       default: "",
       trim: true,
     },
-
 
     // ===================================================
     // PROFESSIONAL INFORMATION
@@ -121,7 +143,6 @@ const userSchema = new mongoose.Schema(
       default: [],
     },
 
-
     // ===================================================
     // STAFF
     // ===================================================
@@ -131,7 +152,6 @@ const userSchema = new mongoose.Schema(
       default: "",
       trim: true,
     },
-
 
     // ===================================================
     // SOCIAL / RESUME
@@ -160,9 +180,8 @@ const userSchema = new mongoose.Schema(
       default: null,
     },
 
-
     // ===================================================
-    // ⭐ PASSWORD RESET FIELDS
+    // PASSWORD RESET FIELDS
     // ===================================================
 
     resetPasswordTokenHash: {
@@ -174,7 +193,6 @@ const userSchema = new mongoose.Schema(
       type: Date,
       default: null,
     },
-
   },
 
   {
@@ -182,13 +200,11 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-
 // =====================================================
 // HASH PASSWORD BEFORE SAVE
 // =====================================================
 
 userSchema.pre("save", async function () {
-
   if (!this.isModified("password")) {
     return;
   }
@@ -199,7 +215,6 @@ userSchema.pre("save", async function () {
     this.password,
     salt
   );
-
 });
 
 // =====================================================
@@ -209,14 +224,11 @@ userSchema.pre("save", async function () {
 userSchema.methods.comparePassword = async function (
   enteredPassword
 ) {
-
   return await bcrypt.compare(
     enteredPassword,
     this.password
   );
-
 };
-
 
 module.exports = mongoose.model(
   "User",

@@ -6,14 +6,37 @@ const User = require("../models/User");
 const Notification = require("../models/Notification");
 
 // =====================================================
-// CREATE JOB - STAFF ONLY
+// HELPER - CHECK JOB MANAGEMENT PERMISSION
+// =====================================================
+
+const canManageJob = (user, job) => {
+  // STAFF CAN MANAGE ANY JOB
+  if (user.role === "staff") {
+    return true;
+  }
+
+  // ALUMNI CAN MANAGE ONLY THEIR OWN JOB
+  if (user.role === "alumni") {
+    return (
+      job.createdBy &&
+      job.createdBy.toString() === user._id.toString()
+    );
+  }
+
+  // STUDENT CANNOT MANAGE JOBS
+  return false;
+};
+
+// =====================================================
+// CREATE JOB - STAFF / ALUMNI
 // =====================================================
 
 const createJob = async (req, res) => {
   try {
-    if (req.user.role !== "staff") {
+    // STAFF + ALUMNI ONLY
+    if (!["staff", "alumni"].includes(req.user.role)) {
       return res.status(403).json({
-        message: "Only staff can create jobs",
+        message: "Only staff and alumni can create jobs",
       });
     }
 
@@ -31,8 +54,10 @@ const createJob = async (req, res) => {
       responsibilities,
       deadline,
       applicationLink,
+      status,
     } = req.body;
 
+    // REQUIRED FIELDS
     if (
       !title ||
       !company ||
@@ -51,10 +76,14 @@ const createJob = async (req, res) => {
     const job = await Job.create({
       title: title.trim(),
       company: company.trim(),
+
       jobType,
       workMode,
+
       location: location.trim(),
+
       experience,
+
       salary: salary || "",
 
       skills: Array.isArray(skills)
@@ -67,12 +96,19 @@ const createJob = async (req, res) => {
         : [],
 
       description: description.trim(),
+
       requirements: requirements || "",
+
       responsibilities: responsibilities || "",
+
       deadline,
+
       applicationLink: applicationLink || "",
+
+      // STORE JOB CREATOR
       createdBy: req.user._id,
-      status: "Published",
+
+      status: status || "Published",
     });
 
     return res.status(201).json({
@@ -90,6 +126,7 @@ const createJob = async (req, res) => {
 
 // =====================================================
 // GET ALL PUBLISHED JOBS
+// STUDENT / ALUMNI / STAFF
 // =====================================================
 
 const getJobs = async (req, res) => {
@@ -97,7 +134,7 @@ const getJobs = async (req, res) => {
     const jobs = await Job.find({
       status: "Published",
     })
-      .populate("createdBy", "name email")
+      .populate("createdBy", "name email role")
       .sort({
         createdAt: -1,
       })
@@ -151,7 +188,7 @@ const getJobById = async (req, res) => {
     }
 
     const job = await Job.findById(req.params.id)
-      .populate("createdBy", "name email")
+      .populate("createdBy", "name email role")
       .lean();
 
     if (!job) {
@@ -164,8 +201,11 @@ const getJobById = async (req, res) => {
     if (req.user.role === "staff") {
       return res.json({
         ...job,
+
         hasApplied: false,
+
         applicationStatus: null,
+
         canApply: false,
       });
     }
@@ -198,19 +238,32 @@ const getJobById = async (req, res) => {
 };
 
 // =====================================================
-// STAFF - GET ALL JOBS
+// JOB MANAGEMENT LIST
+//
+// STAFF  -> ALL JOBS
+// ALUMNI -> OWN JOBS
 // =====================================================
 
 const getAllJobsForStaff = async (req, res) => {
   try {
-    if (req.user.role !== "staff") {
+    // STAFF OR ALUMNI
+    if (!["staff", "alumni"].includes(req.user.role)) {
       return res.status(403).json({
-        message: "Only staff can view job management",
+        message: "Only staff and alumni can view job management",
       });
     }
 
-    const jobs = await Job.find()
-      .populate("createdBy", "name email")
+    let query = {};
+
+    // ALUMNI -> ONLY THEIR OWN JOBS
+    if (req.user.role === "alumni") {
+      query = {
+        createdBy: req.user._id,
+      };
+    }
+
+    const jobs = await Job.find(query)
+      .populate("createdBy", "name email role")
       .sort({
         createdAt: -1,
       });
@@ -224,6 +277,7 @@ const getAllJobsForStaff = async (req, res) => {
 
         return {
           ...job.toObject(),
+
           applicationCount,
         };
       })
@@ -231,23 +285,26 @@ const getAllJobsForStaff = async (req, res) => {
 
     return res.json(result);
   } catch (error) {
-    console.error("STAFF JOB LIST ERROR:", error);
+    console.error("JOB MANAGEMENT LIST ERROR:", error);
 
     return res.status(500).json({
-      message: "Failed to fetch staff jobs",
+      message: "Failed to fetch job management list",
     });
   }
 };
 
 // =====================================================
-// UPDATE JOB - STAFF
+// UPDATE JOB
+//
+// STAFF -> ANY JOB
+// ALUMNI -> OWN JOB
 // =====================================================
 
 const updateJob = async (req, res) => {
   try {
-    if (req.user.role !== "staff") {
-      return res.status(403).json({
-        message: "Only staff can update jobs",
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({
+        message: "Invalid job ID",
       });
     }
 
@@ -256,6 +313,16 @@ const updateJob = async (req, res) => {
     if (!job) {
       return res.status(404).json({
         message: "Job not found",
+      });
+    }
+
+    // CHECK PERMISSION
+    if (!canManageJob(req.user, job)) {
+      return res.status(403).json({
+        message:
+          req.user.role === "alumni"
+            ? "You can only edit jobs posted by you"
+            : "Only staff and alumni can update jobs",
       });
     }
 
@@ -277,11 +344,17 @@ const updateJob = async (req, res) => {
     } = req.body;
 
     job.title = title ?? job.title;
+
     job.company = company ?? job.company;
+
     job.jobType = jobType ?? job.jobType;
+
     job.workMode = workMode ?? job.workMode;
+
     job.location = location ?? job.location;
+
     job.experience = experience ?? job.experience;
+
     job.salary = salary ?? job.salary;
 
     if (skills !== undefined) {
@@ -295,7 +368,8 @@ const updateJob = async (req, res) => {
         : [];
     }
 
-    job.description = description ?? job.description;
+    job.description =
+      description ?? job.description;
 
     job.requirements =
       requirements ?? job.requirements;
@@ -303,7 +377,8 @@ const updateJob = async (req, res) => {
     job.responsibilities =
       responsibilities ?? job.responsibilities;
 
-    job.deadline = deadline ?? job.deadline;
+    job.deadline =
+      deadline ?? job.deadline;
 
     job.applicationLink =
       applicationLink ?? job.applicationLink;
@@ -326,14 +401,17 @@ const updateJob = async (req, res) => {
 };
 
 // =====================================================
-// DELETE JOB - STAFF
+// DELETE JOB
+//
+// STAFF -> ANY JOB
+// ALUMNI -> OWN JOB
 // =====================================================
 
 const deleteJob = async (req, res) => {
   try {
-    if (req.user.role !== "staff") {
-      return res.status(403).json({
-        message: "Only staff can delete jobs",
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({
+        message: "Invalid job ID",
       });
     }
 
@@ -345,6 +423,17 @@ const deleteJob = async (req, res) => {
       });
     }
 
+    // CHECK PERMISSION
+    if (!canManageJob(req.user, job)) {
+      return res.status(403).json({
+        message:
+          req.user.role === "alumni"
+            ? "You can only delete jobs posted by you"
+            : "Only staff and alumni can delete jobs",
+      });
+    }
+
+    // DELETE APPLICATIONS FIRST
     await JobApplication.deleteMany({
       job: job._id,
     });
@@ -369,11 +458,7 @@ const deleteJob = async (req, res) => {
 
 const uploadResume = async (req, res) => {
   try {
-    if (
-      !["student", "alumni"].includes(
-        req.user.role
-      )
-    ) {
+    if (!["student", "alumni"].includes(req.user.role)) {
       return res.status(403).json({
         message:
           "Only students and alumni can upload resume",
@@ -399,7 +484,9 @@ const uploadResume = async (req, res) => {
     }
 
     user.resumeUrl = resumeUrl;
+
     user.resumeName = req.file.originalname;
+
     user.resumeUploadedAt = new Date();
 
     await user.save();
@@ -409,7 +496,9 @@ const uploadResume = async (req, res) => {
 
       resume: {
         url: resumeUrl,
+
         name: req.file.originalname,
+
         uploadedAt: user.resumeUploadedAt,
       },
     });
@@ -418,7 +507,8 @@ const uploadResume = async (req, res) => {
 
     return res.status(500).json({
       message:
-        error.message || "Resume upload failed",
+        error.message ||
+        "Resume upload failed",
     });
   }
 };
@@ -429,11 +519,7 @@ const uploadResume = async (req, res) => {
 
 const updateLinkedIn = async (req, res) => {
   try {
-    if (
-      !["student", "alumni"].includes(
-        req.user.role
-      )
-    ) {
+    if (!["student", "alumni"].includes(req.user.role)) {
       return res.status(403).json({
         message:
           "Only students and alumni can update LinkedIn",
@@ -451,18 +537,16 @@ const updateLinkedIn = async (req, res) => {
 
     const cleanUrl = linkedinUrl.trim();
 
+    // VALID LINKEDIN URL
     if (
-      !(
-        cleanUrl.startsWith(
-          "https://www.linkedin.com/"
-        ) ||
-        cleanUrl.startsWith(
-          "https://linkedin.com/"
-        )
-      )
+      !cleanUrl.startsWith("https://www.linkedin.com/") &&
+      !cleanUrl.startsWith("https://linkedin.com/") &&
+      !cleanUrl.startsWith("http://www.linkedin.com/") &&
+      !cleanUrl.startsWith("http://linkedin.com/")
     ) {
       return res.status(400).json({
-        message: "Please enter a valid LinkedIn URL",
+        message:
+          "Please enter a valid LinkedIn URL",
       });
     }
 
@@ -478,7 +562,9 @@ const updateLinkedIn = async (req, res) => {
       ).select("-password");
 
     return res.json({
-      message: "LinkedIn profile updated",
+      message:
+        "LinkedIn profile updated",
+
       user,
     });
   } catch (error) {
@@ -498,17 +584,16 @@ const updateLinkedIn = async (req, res) => {
 
 const applyForJob = async (req, res) => {
   try {
-    if (
-      !["student", "alumni"].includes(
-        req.user.role
-      )
-    ) {
+    if (!["student", "alumni"].includes(req.user.role)) {
       return res.status(403).json({
-        message: "Staff members cannot apply for jobs",
+        message:
+          "Staff members cannot apply for jobs",
       });
     }
 
-    const { coverMessage = "" } = req.body || {};
+    const {
+      coverMessage = "",
+    } = req.body || {};
 
     const job = await Job.findById(req.params.id);
 
@@ -527,7 +612,8 @@ const applyForJob = async (req, res) => {
 
     if (new Date(job.deadline) < new Date()) {
       return res.status(400).json({
-        message: "Application deadline has passed",
+        message:
+          "Application deadline has passed",
       });
     }
 
@@ -543,6 +629,7 @@ const applyForJob = async (req, res) => {
       return res.status(400).json({
         message:
           "Please upload your resume before applying",
+
         code: "RESUME_REQUIRED",
       });
     }
@@ -551,6 +638,7 @@ const applyForJob = async (req, res) => {
       return res.status(400).json({
         message:
           "Please add your LinkedIn profile before applying",
+
         code: "LINKEDIN_REQUIRED",
       });
     }
@@ -558,6 +646,7 @@ const applyForJob = async (req, res) => {
     const existingApplication =
       await JobApplication.findOne({
         job: job._id,
+
         applicant: user._id,
       });
 
@@ -571,36 +660,43 @@ const applyForJob = async (req, res) => {
     const application =
       await JobApplication.create({
         job: job._id,
+
         applicant: user._id,
+
         resumeUrl: user.resumeUrl,
+
         resumeName: user.resumeName,
+
         linkedinUrl: user.linkedinUrl,
+
         coverMessage: String(
           coverMessage
         ).trim(),
+
         status: "Applied",
       });
 
-    // =================================================
-    // SUBMITTED NOTIFICATION
-    // =================================================
-
+    // NOTIFY JOB CREATOR
     await Notification.create({
-      receiver: user._id,
-      sender: job.createdBy,
+      receiver: job.createdBy,
 
-      title: "Job Application Submitted",
+      sender: user._id,
+
+      title:
+        "New Job Application",
 
       message:
-        `Your application for ${job.title} at ${job.company} ` +
-        `has been submitted successfully.`,
+        `${user.name} has applied for your job ` +
+        `${job.title} at ${job.company}.`,
 
       type: "job",
 
       relatedId: application._id,
 
       jobTitle: job.title,
+
       companyName: job.company,
+
       applicationStatus: "Applied",
 
       isRead: false,
@@ -609,13 +705,15 @@ const applyForJob = async (req, res) => {
     return res.status(201).json({
       message:
         "Job application submitted successfully",
+
       application,
     });
   } catch (error) {
     console.error("APPLY JOB ERROR:", error);
 
     return res.status(500).json({
-      message: "Failed to apply for job",
+      message:
+        "Failed to apply for job",
     });
   }
 };
@@ -626,11 +724,7 @@ const applyForJob = async (req, res) => {
 
 const getMyApplications = async (req, res) => {
   try {
-    if (
-      !["student", "alumni"].includes(
-        req.user.role
-      )
-    ) {
+    if (!["student", "alumni"].includes(req.user.role)) {
       return res.status(403).json({
         message:
           "Only students and alumni can view applications",
@@ -651,23 +745,31 @@ const getMyApplications = async (req, res) => {
 
     return res.json(applications);
   } catch (error) {
-    console.error("MY APPLICATIONS ERROR:", error);
+    console.error(
+      "MY APPLICATIONS ERROR:",
+      error
+    );
 
     return res.status(500).json({
-      message: "Failed to fetch applications",
+      message:
+        "Failed to fetch applications",
     });
   }
 };
 
 // =====================================================
-// STAFF - VIEW APPLICATIONS FOR JOB
+// VIEW APPLICATIONS
+//
+// STAFF -> ANY JOB
+// ALUMNI -> OWN JOB
 // =====================================================
 
 const getJobApplications = async (req, res) => {
   try {
-    if (req.user.role !== "staff") {
+    if (!["staff", "alumni"].includes(req.user.role)) {
       return res.status(403).json({
-        message: "Only staff can view applications",
+        message:
+          "Only staff and job owner alumni can view applications",
       });
     }
 
@@ -676,6 +778,14 @@ const getJobApplications = async (req, res) => {
     if (!job) {
       return res.status(404).json({
         message: "Job not found",
+      });
+    }
+
+    // ALUMNI -> ONLY OWN JOB
+    if (!canManageJob(req.user, job)) {
+      return res.status(403).json({
+        message:
+          "You can only view applications for jobs posted by you",
       });
     }
 
@@ -710,7 +820,10 @@ const getJobApplications = async (req, res) => {
 };
 
 // =====================================================
-// STAFF - UPDATE APPLICATION STATUS
+// UPDATE APPLICATION STATUS
+//
+// STAFF -> ANY JOB
+// ALUMNI -> OWN JOB
 // =====================================================
 
 const updateApplicationStatus = async (
@@ -718,10 +831,10 @@ const updateApplicationStatus = async (
   res
 ) => {
   try {
-    if (req.user.role !== "staff") {
+    if (!["staff", "alumni"].includes(req.user.role)) {
       return res.status(403).json({
         message:
-          "Only staff can update application status",
+          "Only staff and job owner alumni can update application status",
       });
     }
 
@@ -737,18 +850,32 @@ const updateApplicationStatus = async (
 
     if (!allowedStatuses.includes(status)) {
       return res.status(400).json({
-        message: "Invalid application status",
+        message:
+          "Invalid application status",
       });
     }
 
     const application =
       await JobApplication.findById(
         req.params.applicationId
-      ).populate("job", "title company");
+      )
+        .populate(
+          "job",
+          "title company createdBy"
+        );
 
     if (!application) {
       return res.status(404).json({
-        message: "Application not found",
+        message:
+          "Application not found",
+      });
+    }
+
+    // CHECK JOB OWNERSHIP
+    if (!canManageJob(req.user, application.job)) {
+      return res.status(403).json({
+        message:
+          "You can only update applications for jobs posted by you",
       });
     }
 
@@ -757,11 +884,13 @@ const updateApplicationStatus = async (
         message:
           "Application status is already " +
           status,
+
         application,
       });
     }
 
     application.status = status;
+
     application.reviewedAt = new Date();
 
     await application.save();
@@ -812,6 +941,7 @@ const updateApplicationStatus = async (
 
     await Notification.create({
       receiver: application.applicant,
+
       sender: req.user._id,
 
       title: notificationTitle,
@@ -834,6 +964,7 @@ const updateApplicationStatus = async (
     return res.json({
       message:
         "Application status updated successfully",
+
       application,
     });
   } catch (error) {
@@ -851,7 +982,9 @@ const updateApplicationStatus = async (
 
 // =====================================================
 // GET SINGLE JOB APPLICATION
-// STAFF ONLY
+//
+// STAFF -> ANY APPLICATION
+// ALUMNI -> OWN JOB APPLICATION
 // =====================================================
 
 const getJobApplicationById = async (
@@ -859,28 +992,28 @@ const getJobApplicationById = async (
   res
 ) => {
   try {
-    // STAFF ONLY
-    if (req.user.role !== "staff") {
+    if (!["staff", "alumni"].includes(req.user.role)) {
       return res.status(403).json({
         message:
-          "Only staff can view applicant details",
+          "Only staff and job owner alumni can view applicant details",
       });
     }
 
-    const { applicationId } = req.params;
+    const {
+      applicationId,
+    } = req.params;
 
-    // CHECK APPLICATION ID
     if (
       !mongoose.Types.ObjectId.isValid(
         applicationId
       )
     ) {
       return res.status(400).json({
-        message: "Invalid application ID",
+        message:
+          "Invalid application ID",
       });
     }
 
-    // FIND APPLICATION
     const application =
       await JobApplication.findById(
         applicationId
@@ -891,13 +1024,21 @@ const getJobApplicationById = async (
         )
         .populate(
           "job",
-          "title company jobType workMode location experience salary deadline description requirements responsibilities applicationLink"
+          "title company jobType workMode location experience salary deadline description requirements responsibilities applicationLink createdBy"
         );
 
-    // APPLICATION NOT FOUND
     if (!application) {
       return res.status(404).json({
-        message: "Application not found",
+        message:
+          "Application not found",
+      });
+    }
+
+    // CHECK JOB OWNERSHIP
+    if (!canManageJob(req.user, application.job)) {
+      return res.status(403).json({
+        message:
+          "You can only view applicants for jobs posted by you",
       });
     }
 
@@ -918,6 +1059,7 @@ const getJobApplicationById = async (
     return res.status(500).json({
       message:
         "Unable to load applicant details",
+
       error: error.message,
     });
   }
