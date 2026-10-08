@@ -13,7 +13,7 @@ API.interceptors.request.use(
   (config) => {
 
     const token =
-      sessionStorage.getItem("token");
+      localStorage.getItem("token");
 
     if (token) {
       config.headers.Authorization =
@@ -52,9 +52,9 @@ API.interceptors.response.use(
       )
     ) {
 
-      sessionStorage.removeItem("token");
-      sessionStorage.removeItem("user");
-      sessionStorage.removeItem("role");
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      localStorage.removeItem("role");
 
       window.location.href =
         "/login";

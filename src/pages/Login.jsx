@@ -71,18 +71,18 @@ function Login() {
       }
 
       // ==========================================
-      // CLEAR OLD SESSION DATA
+      // CLEAR OLD LOGIN DATA
       // ==========================================
 
-      sessionStorage.removeItem("token");
-      sessionStorage.removeItem("user");
-      sessionStorage.removeItem("role");
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      localStorage.removeItem("role");
 
       // ==========================================
       // SAVE TOKEN
       // ==========================================
 
-      sessionStorage.setItem(
+      localStorage.setItem(
         "token",
         data.token
       );
@@ -91,7 +91,7 @@ function Login() {
       // SAVE USER
       // ==========================================
 
-      sessionStorage.setItem(
+      localStorage.setItem(
         "user",
         JSON.stringify(data.user)
       );
@@ -103,7 +103,7 @@ function Login() {
       const role =
         data.user.role?.toLowerCase();
 
-      sessionStorage.setItem(
+      localStorage.setItem(
         "role",
         role
       );
@@ -145,9 +145,9 @@ function Login() {
           "Invalid user role. Please contact administrator."
         );
 
-        sessionStorage.removeItem("token");
-        sessionStorage.removeItem("user");
-        sessionStorage.removeItem("role");
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        localStorage.removeItem("role");
       }
 
     } catch (error) {

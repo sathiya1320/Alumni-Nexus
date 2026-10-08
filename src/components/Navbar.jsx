@@ -6,13 +6,13 @@ function Navbar() {
   const navigate = useNavigate();
 
   const token =
-    sessionStorage.getItem("token");
+    localStorage.getItem("token");
 
   let user = null;
 
   try {
     user = JSON.parse(
-      sessionStorage.getItem("user")
+      localStorage.getItem("user")
     );
   } catch {
     user = null;
@@ -85,9 +85,9 @@ function Navbar() {
 
   const handleLogout = () => {
 
-    sessionStorage.removeItem("token");
-    sessionStorage.removeItem("user");
-    sessionStorage.removeItem("role");
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("role");
 
     navigate("/", {
       replace: true,
