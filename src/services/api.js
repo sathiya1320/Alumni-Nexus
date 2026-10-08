@@ -13,7 +13,7 @@ API.interceptors.request.use(
   (config) => {
 
     const token =
-      localStorage.getItem("token");
+      sessionStorage.getItem("token");
 
     if (token) {
       config.headers.Authorization =
@@ -45,23 +45,16 @@ API.interceptors.response.use(
         error.response?.data?.message
           ?.toLowerCase()
           .includes("token") ||
+
         error.response?.data?.message
           ?.toLowerCase()
           .includes("expired")
       )
     ) {
 
-      localStorage.removeItem(
-        "token"
-      );
-
-      localStorage.removeItem(
-        "user"
-      );
-
-      localStorage.removeItem(
-        "role"
-      );
+      sessionStorage.removeItem("token");
+      sessionStorage.removeItem("user");
+      sessionStorage.removeItem("role");
 
       window.location.href =
         "/login";

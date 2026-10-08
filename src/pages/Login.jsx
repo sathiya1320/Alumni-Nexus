@@ -7,139 +7,94 @@ import {
 
 import { useState } from "react";
 
-
 function Login() {
-
   const navigate = useNavigate();
-
 
   // ==========================================
   // STATES
   // ==========================================
 
-  const [email, setEmail] =
-    useState("");
-
-  const [password, setPassword] =
-    useState("");
-
-  const [loading, setLoading] =
-    useState(false);
-
-  const [error, setError] =
-    useState("");
-
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   // ==========================================
   // HANDLE LOGIN
   // ==========================================
 
   const handleLogin = async (e) => {
-
     e.preventDefault();
 
     setError("");
-
     setLoading(true);
 
-
     try {
-
       const response = await fetch(
-
         "https://alumni-nexus-cklf.onrender.com/api/auth/login",
-
         {
-
           method: "POST",
 
           headers: {
-
-            "Content-Type":
-              "application/json",
-
+            "Content-Type": "application/json",
           },
 
           body: JSON.stringify({
-
             email: email.trim(),
-
             password: password,
-
           }),
-
         }
-
       );
 
-
-      const data =
-        await response.json();
-
+      const data = await response.json();
 
       // ==========================================
       // LOGIN FAILED
       // ==========================================
 
       if (!response.ok) {
-
         setError(
-
-          data.message ||
-          "Login failed"
-
+          data.message || "Login failed"
         );
-
         return;
-
       }
-
 
       // ==========================================
       // VALIDATE RESPONSE
       // ==========================================
 
       if (!data.token || !data.user) {
-
         setError(
           "Invalid response from server"
         );
-
         return;
-
       }
 
-
       // ==========================================
-      // CLEAR OLD LOGIN DATA
+      // CLEAR OLD SESSION DATA
       // ==========================================
 
-      localStorage.removeItem("token");
-
-      localStorage.removeItem("user");
-
-      localStorage.removeItem("role");
-
+      sessionStorage.removeItem("token");
+      sessionStorage.removeItem("user");
+      sessionStorage.removeItem("role");
 
       // ==========================================
       // SAVE TOKEN
       // ==========================================
 
-      localStorage.setItem(
+      sessionStorage.setItem(
         "token",
         data.token
       );
-
 
       // ==========================================
       // SAVE USER
       // ==========================================
 
-      localStorage.setItem(
+      sessionStorage.setItem(
         "user",
         JSON.stringify(data.user)
       );
-
 
       // ==========================================
       // GET ROLE
@@ -148,110 +103,74 @@ function Login() {
       const role =
         data.user.role?.toLowerCase();
 
-
-      localStorage.setItem(
+      sessionStorage.setItem(
         "role",
         role
       );
 
-
-      console.log(
-        "LOGIN SUCCESS"
-      );
-
-      console.log(
-        "USER:",
-        data.user
-      );
-
-      console.log(
-        "ROLE:",
-        role
-      );
-
+      console.log("LOGIN SUCCESS");
+      console.log("USER:", data.user);
+      console.log("ROLE:", role);
 
       // ==========================================
       // ROLE BASED REDIRECT
       // ==========================================
 
       if (role === "student") {
-
         navigate(
           "/student-dashboard",
           { replace: true }
         );
-
       }
 
       else if (role === "alumni") {
-
         navigate(
           "/alumni-dashboard",
           { replace: true }
         );
-
       }
 
       else if (
         role === "staff" ||
         role === "admin"
       ) {
-
         navigate(
           "/staff-dashboard",
           { replace: true }
         );
-
       }
 
       else {
-
         setError(
           "Invalid user role. Please contact administrator."
         );
 
-        localStorage.removeItem("token");
-
-        localStorage.removeItem("user");
-
-        localStorage.removeItem("role");
-
+        sessionStorage.removeItem("token");
+        sessionStorage.removeItem("user");
+        sessionStorage.removeItem("role");
       }
 
-
-    }
-
-    catch (error) {
-
+    } catch (error) {
       console.error(
         "LOGIN ERROR:",
         error
       );
 
-
       setError(
-
         "Unable to connect to server. Please make sure backend is running."
-
       );
-
     }
 
     finally {
-
       setLoading(false);
-
     }
-
   };
-
 
   // ==========================================
   // UI
   // ==========================================
 
   return (
-
     <div className="login-page">
 
       <div className="login-card">
@@ -260,11 +179,9 @@ function Login() {
           Welcome Back 👋
         </h1>
 
-
         <p>
           Login to Alumni Nexus
         </p>
-
 
         <form
           onSubmit={handleLogin}
@@ -282,7 +199,6 @@ function Login() {
             required
           />
 
-
           {/* PASSWORD */}
 
           <input
@@ -295,30 +211,23 @@ function Login() {
             required
           />
 
-
           {/* FORGOT PASSWORD */}
 
           <div className="forgot-password">
 
             <Link to="/forgot-password">
-
               Forgot Password?
-
             </Link>
 
           </div>
 
-
           {/* ERROR */}
 
           {error && (
-
             <p className="login-error">
               {error}
             </p>
-
           )}
-
 
           {/* LOGIN BUTTON */}
 
@@ -326,16 +235,13 @@ function Login() {
             type="submit"
             disabled={loading}
           >
-
             {loading
               ? "Logging in..."
               : "Login"
             }
-
           </button>
 
         </form>
-
 
         {/* REGISTER */}
 
@@ -344,22 +250,16 @@ function Login() {
           Don't have an account?
 
           <Link to="/register">
-
             {" "}
             Register
-
           </Link>
 
         </div>
 
-
       </div>
 
     </div>
-
   );
-
 }
-
 
 export default Login;

@@ -1,4 +1,8 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate
+} from "react-router-dom";
 
 import {
   FaTachometerAlt,
@@ -15,6 +19,7 @@ import {
 import "../styles/Sidebar.css";
 
 function Sidebar() {
+
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -24,28 +29,31 @@ function Sidebar() {
       path: "/dashboard",
       icon: <FaTachometerAlt />
     },
+
     {
       name: "Profile",
       path: "/profile",
       icon: <FaUser />
     },
+
     {
       name: "Alumni",
       path: "/alumni",
       icon: <FaGraduationCap />
     },
+
     {
       name: "Events",
       path: "/events",
       icon: <FaCalendarAlt />
     },
+
     {
       name: "Jobs",
       path: "/jobs",
       icon: <FaBriefcase />
     },
 
-    // ⭐ NEW MENTORSHIP OPTION
     {
       name: "Mentorship",
       path: "/mentorship",
@@ -57,6 +65,7 @@ function Sidebar() {
       path: "/notifications",
       icon: <FaBell />
     },
+
     {
       name: "Settings",
       path: "/settings",
@@ -65,50 +74,74 @@ function Sidebar() {
   ];
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
 
-    navigate("/login");
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("user");
+    sessionStorage.removeItem("role");
+
+    navigate("/login", {
+      replace: true
+    });
   };
 
   return (
     <aside className="sidebar">
 
       {/* LOGO */}
+
       <div className="sidebar-logo">
+
         <FaGraduationCap />
-        <span>Alumni Nexus</span>
+
+        <span>
+          Alumni Nexus
+        </span>
+
       </div>
 
       {/* MENU */}
+
       <nav className="sidebar-menu">
 
         {menuItems.map((item) => (
+
           <Link
             key={item.path}
             to={item.path}
             className={`sidebar-item ${
-              location.pathname === item.path ? "active" : ""
+              location.pathname === item.path
+                ? "active"
+                : ""
             }`}
           >
+
             <span className="sidebar-icon">
               {item.icon}
             </span>
 
-            <span>{item.name}</span>
+            <span>
+              {item.name}
+            </span>
+
           </Link>
+
         ))}
 
         {/* LOGOUT */}
+
         <button
           className="sidebar-item logout-btn"
           onClick={handleLogout}
         >
+
           <span className="sidebar-icon">
             <FaSignOutAlt />
           </span>
 
-          <span>Logout</span>
+          <span>
+            Logout
+          </span>
+
         </button>
 
       </nav>

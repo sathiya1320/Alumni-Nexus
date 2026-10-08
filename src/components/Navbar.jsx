@@ -5,19 +5,25 @@ import "./Navbar.css";
 function Navbar() {
   const navigate = useNavigate();
 
-  const token = localStorage.getItem("token");
+  const token =
+    sessionStorage.getItem("token");
 
   let user = null;
 
   try {
-    user = JSON.parse(localStorage.getItem("user"));
+    user = JSON.parse(
+      sessionStorage.getItem("user")
+    );
   } catch {
     user = null;
   }
 
   const handleSection = (sectionId) => {
+
     if (window.location.pathname === "/") {
-      const section = document.getElementById(sectionId);
+
+      const section =
+        document.getElementById(sectionId);
 
       if (section) {
         section.scrollIntoView({
@@ -38,7 +44,9 @@ function Navbar() {
     navigate("/#" + sectionId);
 
     setTimeout(() => {
-      const section = document.getElementById(sectionId);
+
+      const section =
+        document.getElementById(sectionId);
 
       if (section) {
         section.scrollIntoView({
@@ -46,10 +54,12 @@ function Navbar() {
           block: "start",
         });
       }
+
     }, 300);
   };
 
   const handleProfile = () => {
+
     if (!token || !user) {
       navigate("/login");
       return;
@@ -74,9 +84,10 @@ function Navbar() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    localStorage.removeItem("role");
+
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("user");
+    sessionStorage.removeItem("role");
 
     navigate("/", {
       replace: true,
@@ -86,17 +97,24 @@ function Navbar() {
   return (
     <nav className="navbar">
 
-      <Link to="/" className="logo">
-        <FaUserGraduate className="logo-icon" />
+      <Link
+        to="/"
+        className="logo"
+      >
+
+        <FaUserGraduate
+          className="logo-icon"
+        />
 
         <span>
           Alumni Nexus
         </span>
+
       </Link>
 
       <div className="nav-links">
 
-       <a
+        <a
           href="/#home"
           onClick={(e) => {
             e.preventDefault();
