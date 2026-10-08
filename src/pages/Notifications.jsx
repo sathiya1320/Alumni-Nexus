@@ -8,7 +8,6 @@ import API from "../services/api";
 import "./Notifications.css";
 
 function Notifications() {
-
   const [
     receivedRequests,
     setReceivedRequests,
@@ -49,9 +48,7 @@ function Notifications() {
 
   const fetchNotifications =
     async () => {
-
       try {
-
         setLoading(true);
 
         // -------------------------------
@@ -59,7 +56,6 @@ function Notifications() {
         // -------------------------------
 
         try {
-
           const receivedResponse =
             await API.get(
               "/connections/received"
@@ -69,9 +65,7 @@ function Notifications() {
             receivedResponse.data
               .requests || []
           );
-
         } catch (error) {
-
           console.error(
             "RECEIVED REQUEST ERROR:",
             error
@@ -85,7 +79,6 @@ function Notifications() {
         // -------------------------------
 
         try {
-
           const sentResponse =
             await API.get(
               "/connections/sent"
@@ -95,9 +88,7 @@ function Notifications() {
             sentResponse.data
               .requests || []
           );
-
         } catch (error) {
-
           console.error(
             "SENT REQUEST ERROR:",
             error
@@ -122,16 +113,12 @@ function Notifications() {
         setNotifications(
           notificationList
         );
-
       } catch (error) {
-
         console.error(
           "NOTIFICATION ERROR:",
           error
         );
-
       } finally {
-
         setLoading(false);
       }
     };
@@ -145,14 +132,40 @@ function Notifications() {
   }, []);
 
   // =========================================
+  // MARK ALL NOTIFICATIONS AS READ
+  // =========================================
+
+  const markAllNotificationsAsRead =
+    async () => {
+      try {
+        await API.put(
+          "/notifications/read-all"
+        );
+
+        // Refresh notification data
+        await fetchNotifications();
+
+      } catch (error) {
+        console.error(
+          "MARK ALL READ ERROR:",
+          error
+        );
+
+        alert(
+          error.response?.data
+            ?.message ||
+            "Unable to mark notifications as read"
+        );
+      }
+    };
+
+  // =========================================
   // ACCEPT CONNECTION
   // =========================================
 
   const handleAcceptDirect =
     async (request) => {
-
       try {
-
         const response =
           await API.put(
             `/connections/accept/${request._id}`,
@@ -164,9 +177,7 @@ function Notifications() {
         );
 
         fetchNotifications();
-
       } catch (error) {
-
         console.error(
           "ACCEPT CONNECTION ERROR:",
           error
@@ -186,13 +197,11 @@ function Notifications() {
 
   const handleAccept =
     async () => {
-
       if (!meetingModal) {
         return;
       }
 
       try {
-
         const response =
           await API.put(
             `/connections/accept/${meetingModal._id}`,
@@ -210,9 +219,7 @@ function Notifications() {
         setMeetingLink("");
 
         fetchNotifications();
-
       } catch (error) {
-
         console.error(
           "ACCEPT REQUEST ERROR:",
           error
@@ -232,7 +239,6 @@ function Notifications() {
 
   const handleReject =
     async (connectionId) => {
-
       const confirmReject =
         window.confirm(
           "Are you sure you want to reject this request?"
@@ -243,7 +249,6 @@ function Notifications() {
       }
 
       try {
-
         const response =
           await API.put(
             `/connections/reject/${connectionId}`
@@ -254,9 +259,7 @@ function Notifications() {
         );
 
         fetchNotifications();
-
       } catch (error) {
-
         console.error(
           "REJECT REQUEST ERROR:",
           error
@@ -276,9 +279,7 @@ function Notifications() {
 
   const markNotificationAsRead =
     async (notificationId) => {
-
       try {
-
         await API.put(
           `/notifications/read/${notificationId}`
         );
@@ -296,9 +297,7 @@ function Notifications() {
                   : notification
             )
         );
-
       } catch (error) {
-
         console.error(
           "MARK READ ERROR:",
           error
@@ -312,7 +311,6 @@ function Notifications() {
 
   const formatTime =
     (date) => {
-
       if (!date) {
         return "";
       }
@@ -330,9 +328,7 @@ function Notifications() {
 
   const getNotificationIcon =
     (type, status) => {
-
       if (type === "job") {
-
         if (
           status === "Selected"
         ) {
@@ -393,7 +389,6 @@ function Notifications() {
       <div className="notifications-header">
 
         <div>
-
           <h1>
             Notifications
           </h1>
@@ -402,17 +397,35 @@ function Notifications() {
             Stay updated with your
             Alumni Nexus activities.
           </p>
-
         </div>
 
-        <button
-          className="mark-read"
-          onClick={
-            fetchNotifications
-          }
+        <div
+          className="notification-header-actions"
         >
-          Refresh
-        </button>
+
+          {/* MARK ALL AS READ */}
+
+          <button
+            className="mark-read"
+            onClick={
+              markAllNotificationsAsRead
+            }
+          >
+            ✓ Mark All as Read
+          </button>
+
+          {/* REFRESH */}
+
+          <button
+            className="mark-read"
+            onClick={
+              fetchNotifications
+            }
+          >
+            🔄 Refresh
+          </button>
+
+        </div>
 
       </div>
 
@@ -535,6 +548,7 @@ function Notifications() {
                                   <strong>
                                     Status:
                                   </strong>{" "}
+
                                   <span
                                     className={`job-notification-status ${notification.applicationStatus
                                       .toLowerCase()

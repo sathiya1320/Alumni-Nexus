@@ -79,6 +79,7 @@ const sendMentorshipRequest =
           mentor: mentorId,
           message: message || "",
           status: "pending",
+          meetingLink: "",
         });
 
       const student =
@@ -132,6 +133,14 @@ const sendMentorshipRequest =
 const getMyMentorshipRequests =
   async (req, res) => {
     try {
+      // ONLY STUDENT
+      if (req.user.role !== "student") {
+        return res.status(403).json({
+          message:
+            "Only students can view their mentorship requests",
+        });
+      }
+
       const requests =
         await MentorshipRequest.find({
           student: req.user._id,
@@ -167,7 +176,7 @@ const getMyMentorshipRequests =
 const getAlumniRequests =
   async (req, res) => {
     try {
-      // Only alumni
+      // ONLY ALUMNI
       if (req.user.role !== "alumni") {
         return res.status(403).json({
           message:
@@ -210,7 +219,14 @@ const getAlumniRequests =
 const updateMentorshipStatus =
   async (req, res) => {
     try {
-      const { status } = req.body;
+      const {
+        status,
+        meetingLink,
+      } = req.body;
+
+      // =====================================
+      // ONLY ACCEPTED OR REJECTED
+      // =====================================
 
       if (
         status !== "accepted" &&
@@ -221,6 +237,10 @@ const updateMentorshipStatus =
             "Invalid status",
         });
       }
+
+      // =====================================
+      // FIND REQUEST
+      // =====================================
 
       const request =
         await MentorshipRequest.findOne({
@@ -235,9 +255,49 @@ const updateMentorshipStatus =
         });
       }
 
-      request.status = status;
+      // =====================================
+      // ACCEPTED
+      // GOOGLE MEET LINK REQUIRED
+      // =====================================
+
+      if (status === "accepted") {
+        if (!meetingLink || !meetingLink.trim()) {
+          return res.status(400).json({
+            message:
+              "Google Meet link is required to accept mentorship",
+          });
+        }
+
+        if (
+          !meetingLink.includes(
+            "meet.google.com"
+          )
+        ) {
+          return res.status(400).json({
+            message:
+              "Please enter a valid Google Meet link",
+          });
+        }
+
+        request.status = "accepted";
+        request.meetingLink =
+          meetingLink.trim();
+      }
+
+      // =====================================
+      // REJECTED
+      // =====================================
+
+      if (status === "rejected") {
+        request.status = "rejected";
+        request.meetingLink = "";
+      }
 
       await request.save();
+
+      // =====================================
+      // GET ALUMNI
+      // =====================================
 
       const alumni =
         await User.findById(
@@ -247,6 +307,16 @@ const updateMentorshipStatus =
       // =====================================
       // NOTIFY STUDENT
       // =====================================
+
+      let notificationMessage;
+
+      if (status === "accepted") {
+        notificationMessage =
+          `${alumni.name} accepted your mentorship request. Google Meet link: ${request.meetingLink}`;
+      } else {
+        notificationMessage =
+          `${alumni.name} rejected your mentorship request.`;
+      }
 
       await Notification.create({
         receiver: request.student,
@@ -258,9 +328,7 @@ const updateMentorshipStatus =
             : "Mentorship Request Rejected",
 
         message:
-          status === "accepted"
-            ? `${alumni.name} accepted your mentorship request.`
-            : `${alumni.name} rejected your mentorship request.`,
+          notificationMessage,
 
         type: "mentorship",
 
@@ -268,6 +336,10 @@ const updateMentorshipStatus =
 
         isRead: false,
       });
+
+      // =====================================
+      // RESPONSE
+      // =====================================
 
       res.status(200).json({
         message:
